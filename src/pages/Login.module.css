@@ -22,6 +22,17 @@
   align-items: center;
 }
 
+input {
+  outline: none;
+  border-width: 1px;
+  border-radius: 10px;
+  width: 22rem;
+  height: 2rem;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  font-family: Poppins;
+}
+
 @media screen and (max-width: 800px) {
   .signUpPhoto {
     display: none;

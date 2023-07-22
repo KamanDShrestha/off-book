@@ -8,46 +8,72 @@ import Input from '../components/Input';
 import Card from '../components/Card';
 import CenteringComponent from '../components/CenteringComponent';
 import bookStack from '../assets/bookStack.jpg';
+import { useForm } from 'react-hook-form';
+import ErrorText from '../components/ErrorText';
 
 const Login = () => {
-  const [formValue, setFormValue] = useState({
-    email: '',
-    password: '',
-  });
+  const [isVisible, setIsVisible] = useState(false);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(formValue);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  console.log(register);
+  console.log(errors);
+
+  function onSubmit(data) {
+    console.log(data);
+    alert(`Email: ${data.email} \nPassword: ${data.password}`);
   }
 
+  function handleVisibility(e) {
+    e.preventDefault();
+    setIsVisible((isVisible) => !isVisible);
+  }
   return (
     <>
       <CenteringComponent styles={{ justifyContent: 'space-around' }}>
         <Card>
-          <form className={styles.loginForm} onSubmit={(e) => handleSubmit(e)}>
+          <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
             <Header style={{ margin: 'auto' }}>Login to your account</Header>
 
             <label htmlFor='name'>Email</label>
-            <Input
-              placeHolder='Enter your email'
-              name='email'
+            <input
+              placeholder='Enter your email'
               type='email'
-              value={formValue.email}
-              onTextChange={(e) =>
-                setFormValue({ ...formValue, email: e.target.value })
-              }
+              {...register('email', { required: 'Please provide the email' })}
+              // type='email'
+              // value={formValue.email}
+              // onTextChange={(e) =>
+              //   setFormValue({ ...formValue, email: e.target.value })
+              // }
             />
+            {errors.email && <ErrorText message={errors?.email.message} />}
 
             <label htmlFor='name'>Password</label>
-            <Input
-              placeHolder='Enter your password'
-              name='password'
-              type='password'
-              value={formValue.password}
-              onTextChange={(e) =>
-                setFormValue({ ...formValue, password: e.target.value })
-              }
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                placeholder='Enter your password'
+                type={isVisible ? 'text' : 'password'}
+                {...register('password', { required: true, minLength: 5 })}
+              />
+              {errors.password?.type === 'required' && (
+                <ErrorText message={'Please provide a password'} />
+              )}
+              {errors.password?.type === 'minLength' && (
+                <ErrorText
+                  message={'Password should have at least 5 characters.'}
+                />
+              )}
+              <button style={{ ...visibiltyStyles }} onClick={handleVisibility}>
+                {isVisible ? (
+                  <span style={{ fontSize: '15px' }}> 👀 </span>
+                ) : (
+                  <span style={{ fontSize: '15px' }}>🕶️</span>
+                )}
+              </button>
+            </div>
 
             <Button>Login</Button>
           </form>
@@ -64,6 +90,16 @@ const Login = () => {
       </CenteringComponent>
     </>
   );
+};
+
+const visibiltyStyles = {
+  position: 'absolute',
+  right: '5px',
+  top: '8px',
+  border: 'none',
+  outline: 'none',
+  cursor: 'pointer',
+  background: 'none',
 };
 
 export default Login;
