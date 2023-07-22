@@ -1,0 +1,29 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.lively {
+  z-index: 2;
+  height: 50vh;
+  position: absolute;
+  border-radius: 10px;
+}
+.dark {
+  z-index: 1;
+  margin: 10px 20px;
+  height: 82vh;
+  border-radius: 10px;
+}
+
+.layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 800px) {
+  .signUpPhoto {
+    display: none;
+  }
+}

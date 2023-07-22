@@ -1,0 +1,29 @@
+.button {
+  width: 20rem;
+  height: 2.5rem;
+  background-color: #676060;
+  color: white;
+  border-radius: 20px;
+  outline: none;
+  border-style: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin: auto;
+  cursor: pointer;
+  font-family: 'Poppins';
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.button:hover {
+  filter: brightness(130%);
+}
+
+.button:disabled {
+  background-color: gainsboro;
+  cursor: not-allowed;
+  color: black;
+}
+
+.button:disabled:hover {
+  filter: brightness(100%);
+}
