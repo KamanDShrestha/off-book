@@ -26,6 +26,7 @@ const Input = ({
         placeholder={placeHolder}
         onChange={onTextChange}
         checked={checked}
+        required
       />
     );
   }
@@ -38,6 +39,7 @@ const Input = ({
         placeholder={placeHolder}
         onChange={onTextChange}
         value={value}
+        required
       />
       {type === 'password' && (
         <button
