@@ -19,8 +19,8 @@ connectDB();
 //initializing the express
 const app = express();
 
-//setting the port
-app.set('PORT', process.env.PORT || 8000);
+// //setting the port
+// app.set('PORT', process.env.SERVER_PORT || 8000);
 
 //using the body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,8 +58,8 @@ app.use(bodyParser.json());
 app.use('/', bookRouter);
 
 //listening for the request on the port no 5000
-app.listen(app.get('PORT'), () => {
-  console.log('Server is running on port 5000');
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Server is running on port ${process.env.SERVER_PORT}`);
 });
 
 console.log('jwttoken, dotenv, middleware');

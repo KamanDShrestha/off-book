@@ -1,10 +1,11 @@
 const express = require('express');
-const { default: Book } = require('../models/bookModel');
+const Book = require('../models/bookModel');
 
 const bookRouter = express.Router();
 
-bookRouter.get('/', async (req, res) => {
-  const books = await Book.find({});
+bookRouter.get('/books', async (req, res) => {
+  console.log(Book);
+  const books = await Book.find();
   res.json(books);
 });
 
