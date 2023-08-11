@@ -4,12 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthenticationContextProvider from './contexts/AuthenticationContextProvider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
+// import { ReactQueryDevtools } from 'react-query-devtools';
+//making a query client for using react query and provide the values
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthenticationContextProvider>
-      <App />
-    </AuthenticationContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthenticationContextProvider>
+        <App />
+      </AuthenticationContextProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

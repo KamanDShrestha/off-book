@@ -9,16 +9,30 @@ import sineater from '../assets/bookcover01.jpeg';
 import million from '../assets/bookcover02.jpeg';
 import berlin from '../assets/bookcover03.jpeg';
 import family from '../assets/bookcover04.jpeg';
-import books from '../data/bestsellers';
+
 import Header from '../components/Header';
 import stackDark from '../assets/stackDark.jpg';
 import oldbooks from '../assets/oldbooks.jpg';
 import Footer from '../components/Footer';
 
+import axios from 'axios';
+
 const API_KEY = 'AIzaSyC2FifrFWAqtlZx1OvZM_ULYpQco8FeetY';
 const Home = () => {
-  const bookCovers = [sineater, million, berlin];
+  const [books, setBooks] = useState([]);
 
+  useEffect(() => {
+    async function getBooks() {
+      const books = await axios
+        .get('http://localhost:8000/books')
+        .then((res) => res.data);
+      console.log(books);
+      setBooks(books);
+    }
+    getBooks();
+  }, []);
+
+  const bookCovers = [sineater, million, berlin];
   return (
     <>
       <FirstLayer>
@@ -78,6 +92,9 @@ const SecondLayer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  padding: 30px;
+  height: 100%;
+  width: 100%;
 `;
 
 const ThirdLayer = styled.div`
@@ -167,12 +184,15 @@ const FirstLayerImageHolder = styled.div`
 `;
 
 const SecondLayerBookContainer = styled.div`
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   margin: 15px;
-  gap: 3rem;
+  gap: 3rem; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
 `;
 
 export default Home;

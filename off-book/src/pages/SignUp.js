@@ -11,6 +11,9 @@ import Card from '../components/Card';
 import CenteringComponent from '../components/CenteringComponent';
 import { useState } from 'react';
 import ErrorText from '../components/ErrorText';
+import useRegisterUser from '../hooks/useRegisterUser';
+import { toast } from 'react-hot-toast';
+
 const SignUp = () => {
   const [formValue, setFormValue] = useState({
     name: '',
@@ -28,9 +31,13 @@ const SignUp = () => {
 
   const [isChecked, setIsChecked] = useState(false);
 
+  const { mutate, isLoading, status, error } = useRegisterUser();
+
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(formValue);
+
+    const firstName = formValue.name.split(' ')[0];
+    const lastName = formValue.name.split(' ')[1] || '';
 
     if (formValue.password !== formValue.confirmPassword) {
       setErrorMessage({
@@ -44,9 +51,12 @@ const SignUp = () => {
         errorConfirmPassword: '',
       });
     }
-    alert(
-      `Name:${formValue.name} \n Email:${formValue.email} Password:${formValue.password}`
-    );
+    mutate({
+      firstName,
+      lastName,
+      password: formValue.password,
+      email: formValue.email,
+    });
   }
 
   return (
@@ -160,10 +170,11 @@ const SignUp = () => {
                 !isChecked ||
                 !!errorMessage.errorName ||
                 !!errorMessage.errorEmail ||
-                !!errorMessage.errorPassword
+                !!errorMessage.errorPassword ||
+                isLoading
               }
             >
-              Sign up
+              {isLoading ? 'Registering' : 'Sign up'}
             </Button>
           </form>
           <span>

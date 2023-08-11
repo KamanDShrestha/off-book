@@ -10,8 +10,10 @@ import CenteringComponent from '../components/CenteringComponent';
 import bookStack from '../assets/bookStack.jpg';
 import { useForm } from 'react-hook-form';
 import ErrorText from '../components/ErrorText';
+import useAuthUser from '../hooks/useAuthUser';
 
 const Login = () => {
+  const { mutate, isLoading, error } = useAuthUser();
   const [isVisible, setIsVisible] = useState(false);
 
   const {
@@ -24,7 +26,7 @@ const Login = () => {
 
   function onSubmit(data) {
     console.log(data);
-    alert(`Email: ${data.email} \nPassword: ${data.password}`);
+    mutate(data);
   }
 
   function handleVisibility(e) {
@@ -43,11 +45,6 @@ const Login = () => {
               placeholder='Enter your email'
               type='email'
               {...register('email', { required: 'Please provide the email' })}
-              // type='email'
-              // value={formValue.email}
-              // onTextChange={(e) =>
-              //   setFormValue({ ...formValue, email: e.target.value })
-              // }
             />
             {errors.email && <ErrorText message={errors?.email.message} />}
 

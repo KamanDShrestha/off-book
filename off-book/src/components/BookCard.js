@@ -1,28 +1,35 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
+import { NavLink, useNavigate } from 'react-router-dom';
 const BookCard = ({ bookInfo }) => {
+  const navigate = useNavigate();
+
+  function handleWishClick() {}
+
   return (
     <BookContainer>
       <ImageContainer src={bookInfo.imageLink} />
-      <BookTitle>{bookInfo.title}</BookTitle>
+
+      <BookTitle onClick={() => navigate(`book/${bookInfo._id}`)}>
+        {bookInfo.title}
+      </BookTitle>
+
       <BookAuthor>By: {bookInfo.author}</BookAuthor>
+      <AddToWishButton>Add to Wishlist</AddToWishButton>
     </BookContainer>
   );
 };
 
 const BookContainer = styled.div`
-  width: 22vw;
-  height: 500px;
+  height: 72vh;
+  display: flex;
+  flex-direction: column;
 `;
 
-const ImageContainer = styled.div`
-  ${(props) => css`
-    background-image: url(${props.src});
-  `}
-  height: 64vh;
-  width: 22vw;
-  background-size: cover;
-  background-repeat: no-repeat;
+const ImageContainer = styled.img`
+  height: 100%;
+  overflow: hidden;
+  border-radius: 10px;
 `;
 
 const BookTitle = styled.span`
@@ -31,11 +38,29 @@ const BookTitle = styled.span`
   margin-bottom: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const BookAuthor = styled.p`
   margin-top: 2px;
   font-size: x-small;
+`;
+
+const AddToWishButton = styled.button`
+  padding: 8px;
+  width: 40%;
+  margin: auto;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: #676060;
+  color: whitesmoke;
+  font-family: Poppins;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px;
 `;
 
 export default BookCard;

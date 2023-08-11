@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 //importing the express module for acting as the middleware
 const express = require('express');
 
@@ -13,12 +15,29 @@ const bodyParser = require('body-parser');
 
 //for providing a route to use for a certain URL
 const bookRouter = require('./route/bookRouter');
+const registerRouter = require('./routes/authentication/register');
+const loginRouter = require('./routes/authentication/login');
+//helmet as middleware
+//for setting up HTTPs header wihtin the response for security purposes
+const helmet = require('helmet');
 
 connectDB();
 
 //initializing the express
 const app = express();
 
+//middleware
+app.use(helmet());
+app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 // //setting the port
 // app.set('PORT', process.env.SERVER_PORT || 8000);
 
@@ -55,7 +74,10 @@ app.use(bodyParser.json());
 //   res.send(data);
 // });
 
+//routes for triggering different authentication and response generation
 app.use('/', bookRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/login', loginRouter);
 
 //listening for the request on the port no 5000
 app.listen(process.env.SERVER_PORT, () => {
