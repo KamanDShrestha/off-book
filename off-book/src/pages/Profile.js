@@ -94,7 +94,7 @@ const ProfileDiv = styled.div`
   gap: 60px;
 `;
 
-const ProfilePic = styled.div`
+export const ProfilePic = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

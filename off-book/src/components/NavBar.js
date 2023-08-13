@@ -7,17 +7,21 @@ import { useLocation } from 'react-router-dom';
 import UserProfileTab from './UserProfileTab';
 import { FaBookOpen, FaSearch } from 'react-icons/fa';
 import { useWishListContext } from '../contexts/WishListContextProvider';
+import getFromLocalStorage from '../helpers/getFromLocalStorage';
 const NavBar = () => {
   const { isInHome, setIsInHome } = useAuthenticationContext();
   const location = useLocation();
+
   useEffect(() => {
     setIsInHome(
       () => location.pathname !== '/signup' && location.pathname !== '/login'
     );
   }, [location, setIsInHome]);
 
-  const userInfo = localStorage.getItem('userInfo') || null;
+  const userInfo = getFromLocalStorage('userInfo') || null;
   const { wishList, numberWishList } = useWishListContext();
+
+  const isAdmin = userInfo ? (userInfo.role === 'admin' ? true : false) : false;
 
   return (
     <StyledNavContainer>
@@ -42,24 +46,27 @@ const NavBar = () => {
             <>
               <StyledNavLink to={'/categories'}>Catgories</StyledNavLink>
 
-              <StyledNavLink to={'/wishlist'}>
-                {numberWishList !== 0 && (
-                  <span
-                    style={{
-                      backgroundColor: 'red',
-
-                      paddingLeft: '0.3rem',
-                      paddingRight: '0.3rem',
-                      borderRadius: '10px',
-                      color: 'white',
-                      marginRight: '4px',
-                    }}
-                  >
-                    {numberWishList}
-                  </span>
-                )}
-                Wishlist
-              </StyledNavLink>
+              {!isAdmin ? (
+                <StyledNavLink to={'/wishlist'}>
+                  {numberWishList !== 0 && (
+                    <span
+                      style={{
+                        backgroundColor: 'red',
+                        paddingLeft: '0.3rem',
+                        paddingRight: '0.3rem',
+                        borderRadius: '10px',
+                        color: 'white',
+                        marginRight: '4px',
+                      }}
+                    >
+                      {numberWishList}
+                    </span>
+                  )}
+                  Wishlist
+                </StyledNavLink>
+              ) : (
+                <StyledNavLink to={'/users'}>Users</StyledNavLink>
+              )}
 
               <StyledNavLink to={'/blog'}>Blog</StyledNavLink>
 

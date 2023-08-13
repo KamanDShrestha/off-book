@@ -5,17 +5,21 @@ import { styled } from 'styled-components';
 import { useWishListContext } from '../contexts/WishListContextProvider';
 import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
 import getFromLocalStorage from '../helpers/getFromLocalStorage';
+import useLogoutUser from '../hooks/useLogoutUser';
 
 const UserProfileTab = () => {
   const navigate = useNavigate();
   const userInfo = getFromLocalStorage('userInfo');
   const { removeWishList } = useWishListContext();
+  const { mutate } = useLogoutUser();
+
   console.log(userInfo);
   function handleSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'logout') {
       localStorage.removeItem('userInfo');
       removeWishList();
+      mutate();
       navigate('/login');
     } else {
       navigate('/profile');

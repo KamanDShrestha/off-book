@@ -20,7 +20,7 @@ const loginRouter = require('./routes/authentication/login');
 const bookDetailRouter = require('./routes/books/bookDetailRouter');
 const userProfileRouter = require('./routes/users/userProfile');
 const usersDetailsRouter = require('./routes/users/usersDetails');
-
+const logoutRouter = require('./routes/authentication/logout');
 //helmet as middleware
 //for setting up HTTPs header wihtin the response for security purposes
 const helmet = require('helmet');
@@ -92,6 +92,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/book', bookDetailRouter);
 app.use('/api/profile', userProfileRouter);
 app.use('/api/users', usersDetailsRouter);
+app.use('/api/logout', logoutRouter);
 
 //listening for the request on the port no 5000
 app.listen(process.env.SERVER_PORT, () => {

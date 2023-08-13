@@ -32,7 +32,7 @@ const protect = async (req, res, next) => {
   }
 };
 
-const isAdmin = async (req, res) => {
+const isAdmin = async (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
   } else {
