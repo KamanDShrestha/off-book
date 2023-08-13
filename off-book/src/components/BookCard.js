@@ -1,10 +1,15 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useWishListContext } from '../contexts/WishListContextProvider';
 const BookCard = ({ bookInfo }) => {
   const navigate = useNavigate();
 
-  function handleWishClick() {}
+  const { saveWishList } = useWishListContext();
+
+  function handleWishClick() {
+    saveWishList(bookInfo);
+  }
 
   return (
     <BookContainer>
@@ -15,7 +20,9 @@ const BookCard = ({ bookInfo }) => {
       </BookTitle>
 
       <BookAuthor>By: {bookInfo.author}</BookAuthor>
-      <AddToWishButton>Add to Wishlist</AddToWishButton>
+      <AddToWishButton onClick={handleWishClick}>
+        Add to Wishlist
+      </AddToWishButton>
     </BookContainer>
   );
 };

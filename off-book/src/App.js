@@ -1,12 +1,15 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
+
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import AppLayout from './AppLayout';
 import Home from './pages/Home';
 import { Toaster } from 'react-hot-toast';
 import BookDetails from './pages/BookDetails';
+import Wishlist from './pages/Wishlist';
+import Profile from './pages/Profile';
+
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -15,6 +18,8 @@ const router = createBrowserRouter([
       { path: '/signup', element: <SignUp /> },
       { path: '/login', element: <Login /> },
       { path: '/book/:id', element: <BookDetails /> },
+      { path: '/wishlist', element: <Wishlist /> },
+      { path: '/profile', element: <Profile /> },
     ],
   },
 ]);

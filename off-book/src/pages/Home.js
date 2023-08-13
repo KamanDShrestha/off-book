@@ -83,7 +83,6 @@ const FirstLayer = styled.div`
   justify-content: space-around;
   align-items: center;
   color: #676060;
-  margin: 10px;
 `;
 
 const SecondLayer = styled.div`

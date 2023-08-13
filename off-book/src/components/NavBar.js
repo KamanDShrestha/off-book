@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import { NavLink } from 'react-router-dom';
 import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
-
-import styles from './NavBar.module.css';
 import { styled } from 'styled-components';
 import { useLocation } from 'react-router-dom';
-import CenteringComponent from './CenteringComponent';
 import UserProfileTab from './UserProfileTab';
 import { FaBookOpen, FaSearch } from 'react-icons/fa';
+import { useWishListContext } from '../contexts/WishListContextProvider';
 const NavBar = () => {
   const { isInHome, setIsInHome } = useAuthenticationContext();
   const location = useLocation();
@@ -19,6 +17,7 @@ const NavBar = () => {
   }, [location, setIsInHome]);
 
   const userInfo = localStorage.getItem('userInfo') || null;
+  const { wishList, numberWishList } = useWishListContext();
 
   return (
     <StyledNavContainer>
@@ -43,7 +42,24 @@ const NavBar = () => {
             <>
               <StyledNavLink to={'/categories'}>Catgories</StyledNavLink>
 
-              <StyledNavLink to={'/wishlist'}>Wishlist</StyledNavLink>
+              <StyledNavLink to={'/wishlist'}>
+                {numberWishList !== 0 && (
+                  <span
+                    style={{
+                      backgroundColor: 'red',
+
+                      paddingLeft: '0.3rem',
+                      paddingRight: '0.3rem',
+                      borderRadius: '10px',
+                      color: 'white',
+                      marginRight: '4px',
+                    }}
+                  >
+                    {numberWishList}
+                  </span>
+                )}
+                Wishlist
+              </StyledNavLink>
 
               <StyledNavLink to={'/blog'}>Blog</StyledNavLink>
 

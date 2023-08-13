@@ -25,12 +25,36 @@ router.post('/', async (req, res) => {
     }
 
     //decrypting the password using bcyrpt
-    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    // const salt = await bcrypt.genSalt(Number(process.env.SALT));
 
-    const hashedPassword = await bcrypt.hash(body.password, salt);
+    // const hashedPassword = await bcrypt.hash(body.password, salt);
 
-    await new User({ ...body, password: hashedPassword }).save();
-    res.status(201).send({ message: 'User has been registered successfully' });
+    // const newUser = await new User({
+    //   ...body,
+    //   password: hashedPassword,
+    // }).save();
+
+    const newUser = await User.create({ ...body });
+
+    //generating the token after the user is logged in
+    const token = newUser.generateAuthToken();
+
+    //providing the token as cookie
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 1day
+      secure: process.env.NODE_ENV !== 'development',
+    });
+
+    res.status(201).send({
+      id: newUser.id,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      email: newUser.email,
+      role: newUser.role,
+      message: 'User has been registered successfully',
+    });
   } catch (error) {
     res.status(500).send({ message: 'Internal server error' });
   }

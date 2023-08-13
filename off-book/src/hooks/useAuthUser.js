@@ -11,12 +11,17 @@ export default function useAuthUser() {
   const navigate = useNavigate();
   const authenticatedUser = useMutation({
     mutationFn: (data) =>
-      axiosInstance.post('/api/login', data).then((res) => res.data),
+      axiosInstance
+        .post('/api/login', data, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
     onSuccess: (data) => {
       console.log(data);
       toast.success(data.message);
       setToLocalStorage('userInfo', {
-        name: data.firstName,
+        firstName: data.firstName,
+        lastName: data.lastName,
         email: data.email,
         role: data.role,
       });

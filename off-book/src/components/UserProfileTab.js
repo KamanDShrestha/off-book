@@ -2,24 +2,31 @@ import React from 'react';
 import { FaPersonBooth } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { useWishListContext } from '../contexts/WishListContextProvider';
+import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
+import getFromLocalStorage from '../helpers/getFromLocalStorage';
 
 const UserProfileTab = () => {
   const navigate = useNavigate();
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
+  const userInfo = getFromLocalStorage('userInfo');
+  const { removeWishList } = useWishListContext();
+  console.log(userInfo);
   function handleSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'logout') {
       localStorage.removeItem('userInfo');
+      removeWishList();
+      navigate('/login');
+    } else {
+      navigate('/profile');
     }
-    navigate('/login');
   }
 
   return (
     <div>
       👦🏻
-      <StyledSelect defaultValue={userInfo.name} onChange={handleSelect}>
-        <option value='name'>{userInfo.name}</option>
+      <StyledSelect defaultValue={userInfo.firstName} onChange={handleSelect}>
+        <option value='name'>{userInfo.firstName}</option>
         <option value='profile'>Profile</option>
         <option value='logout'>Log out</option>
       </StyledSelect>

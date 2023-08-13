@@ -43,6 +43,16 @@ userSchema.methods.matchPassword = function (providedPassword) {
   return bcrypt.compare(providedPassword, this.password);
 };
 
+//before saving onto the database, hashing the password
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return;
+  }
+  //generating salt for the hashing
+  const salt = await bcrypt.genSalt(Number(process.env.SALT));
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
 const User = mongoose.model('User', userSchema);
 
 //for validating the API request

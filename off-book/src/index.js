@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import AuthenticationContextProvider from './contexts/AuthenticationContextProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import WishListContextProvider from './contexts/WishListContextProvider';
 // import { ReactQueryDevtools } from 'react-query-devtools';
 //making a query client for using react query and provide the values
 const queryClient = new QueryClient();
@@ -13,11 +14,13 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthenticationContextProvider>
-        <App />
-      </AuthenticationContextProvider>
-    </QueryClientProvider>
+    <WishListContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthenticationContextProvider>
+          <App />
+        </AuthenticationContextProvider>
+      </QueryClientProvider>
+    </WishListContextProvider>
   </React.StrictMode>
 );
 
