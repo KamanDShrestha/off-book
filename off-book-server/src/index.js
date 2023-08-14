@@ -21,12 +21,13 @@ const bookDetailRouter = require('./routes/books/bookDetailRouter');
 const userProfileRouter = require('./routes/users/userProfile');
 const usersDetailsRouter = require('./routes/users/usersDetails');
 const logoutRouter = require('./routes/authentication/logout');
+const userDeleteRouter = require('./routes/users/userDelete');
+const bookAddRouter = require('./routes/books/bookAdd');
+const bookDeleteRouter = require('./routes/books/bookDelete');
+
 //helmet as middleware
 //for setting up HTTPs header wihtin the response for security purposes
 const helmet = require('helmet');
-
-const protect = require('./middleware/authMiddleware');
-const isAdmin = require('./middleware/authMiddleware');
 
 connectDB();
 
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Add DELETE to the list of allowed methods
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
@@ -93,10 +95,11 @@ app.use('/api/book', bookDetailRouter);
 app.use('/api/profile', userProfileRouter);
 app.use('/api/users', usersDetailsRouter);
 app.use('/api/logout', logoutRouter);
+app.use('/api/users', userDeleteRouter);
+app.use('/api/books', bookAddRouter);
+app.use('/api/books', bookDeleteRouter);
 
 //listening for the request on the port no 5000
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT}`);
 });
-
-console.log('jwttoken, dotenv, middleware');

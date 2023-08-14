@@ -16,22 +16,24 @@ import oldbooks from '../assets/oldbooks.jpg';
 import Footer from '../components/Footer';
 
 import axios from 'axios';
+import useBooks from '../hooks/useBooks';
+import Loader from '../components/Loader';
 
 const API_KEY = 'AIzaSyC2FifrFWAqtlZx1OvZM_ULYpQco8FeetY';
 const Home = () => {
-  const [books, setBooks] = useState([]);
+  // const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    async function getBooks() {
-      const books = await axios
-        .get('http://localhost:8000/books')
-        .then((res) => res.data);
-      console.log(books);
-      setBooks(books);
-    }
-    getBooks();
-  }, []);
-
+  // useEffect(() => {
+  //   async function getBooks() {
+  //     const books = await axios
+  //       .get('http://localhost:8000/books')
+  //       .then((res) => res.data);
+  //     console.log(books);
+  //     setBooks(books);
+  //   }
+  //   getBooks();
+  // }, []);
+  const { data: books, isLoading } = useBooks();
   const bookCovers = [sineater, million, berlin];
   return (
     <>
@@ -51,11 +53,16 @@ const Home = () => {
 
       <SecondLayer>
         <Header>Best Sellers</Header>
-        <SecondLayerBookContainer>
-          {books.map((bookInfo) => (
-            <BookCard bookInfo={bookInfo} />
-          ))}
-        </SecondLayerBookContainer>
+
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <SecondLayerBookContainer>
+            {books.map((bookInfo) => (
+              <BookCard bookInfo={bookInfo} />
+            ))}
+          </SecondLayerBookContainer>
+        )}
       </SecondLayer>
 
       <ThirdLayer>
@@ -91,9 +98,6 @@ const SecondLayer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  padding: 30px;
-  height: 100%;
-  width: 100%;
 `;
 
 const ThirdLayer = styled.div`
@@ -190,8 +194,10 @@ const SecondLayerBookContainer = styled.div`
   margin: 15px;
   gap: 3rem; */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 30% 30% 30%;
   gap: 50px;
+
+  margin: 30px;
 `;
 
 export default Home;

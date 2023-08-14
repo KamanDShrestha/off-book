@@ -3,13 +3,24 @@ import { styled } from 'styled-components';
 import { ProfilePic } from '../pages/Profile';
 import { FaDumpster } from 'react-icons/fa';
 import Header from './Header';
+import useDeleteUser from '../hooks/useDeleteUser';
 const UserCard = ({ user }) => {
-  function handleDelete() {}
+  const { mutate, isLoading: isDeleting } = useDeleteUser();
+  function handleDelete() {
+    console.log('Deleting');
+    mutate(user.email);
+  }
   return (
     <>
       {user.role !== 'admin' && (
         <>
-          <UserCardContainer>
+          <UserCardContainer
+            style={
+              isDeleting
+                ? { filter: 'grayscale(100%)', cursor: 'not-allowed' }
+                : {}
+            }
+          >
             <ProfilePic>
               <span style={{ fontSize: '200px' }}>👦🏻</span>
             </ProfilePic>

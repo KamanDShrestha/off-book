@@ -1,41 +1,68 @@
-import React, { useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import useBookDetail from '../hooks/useBookDetail';
 import css from 'styled-components';
 import CollapsingText from '../components/CollapsingText';
 import Button from '../components/Button';
 import { useWishListContext } from '../contexts/WishListContextProvider';
+import Loader from '../components/Loader';
+import useBookDelete from '../hooks/useBookDelete';
+import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
+import getFromLocalStorage from '../helpers/getFromLocalStorage';
 const BookDetails = () => {
   const { id } = useParams();
   console.log(id);
 
-  const { data } = useBookDetail(id);
+  const { data, isLoading } = useBookDetail(id);
   console.log(data);
 
   const { saveWishList } = useWishListContext();
+  const userInfo = getFromLocalStorage('userInfo');
 
+  const { mutate, isLoading: isDeleting } = useBookDelete();
+
+  const isAdmin = userInfo ? (userInfo.role === 'admin' ? true : false) : false;
+  console.log('should be admin', isAdmin);
   return (
-    <StyledBookDetailContainer>
-      <StyledImage src={data?.imageLink} alt={data?.title} />
-      <div>
-        <StyledHeading variant='title' as={'h1'}>
-          {data?.title}
-        </StyledHeading>
-        <StyledHeading variant='description' as={'h3'}>
-          Description
-        </StyledHeading>
-        <CollapsingText style={{ fontSize: '13px' }}>
-          {data?.description}
-        </CollapsingText>
-        <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
-          ISBN: {data?.isbn}
-        </StyledHeading>
-        <Button onButtonClick={() => saveWishList(data)}>
-          Add to Wishlist
-        </Button>
-      </div>
-    </StyledBookDetailContainer>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <StyledBookDetailContainer
+          style={isDeleting ? { filter: 'grayscale(100%)' } : {}}
+        >
+          <StyledImage src={data?.imageLink} alt={data?.title} />
+          <div>
+            <StyledHeading variant='title' as={'h1'}>
+              {data?.title}
+            </StyledHeading>
+            <StyledHeading variant='description' as={'h3'}>
+              Description
+            </StyledHeading>
+            <CollapsingText style={{ fontSize: '13px' }}>
+              {data?.description}
+            </CollapsingText>
+            <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
+              Author: {data?.author}
+            </StyledHeading>
+            <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
+              ISBN: {data?.isbn}
+            </StyledHeading>
+
+            {isAdmin ? (
+              <Button onButtonClick={() => mutate(data?.isbn)}>
+                Delete book 🗑️
+              </Button>
+            ) : (
+              <Button onButtonClick={() => saveWishList(data)}>
+                Add to Wishlist
+              </Button>
+            )}
+          </div>
+        </StyledBookDetailContainer>
+      )}
+    </>
   );
 };
 

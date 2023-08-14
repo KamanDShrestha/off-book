@@ -44,7 +44,11 @@ const NavBar = () => {
           </StyledNavLink>
           {isInHome && (
             <>
-              <StyledNavLink to={'/categories'}>Catgories</StyledNavLink>
+              {isAdmin ? (
+                <StyledNavLink to={'/booksAdd'}>Books➕➕</StyledNavLink>
+              ) : (
+                <StyledNavLink to={'/categories'}>Catgories</StyledNavLink>
+              )}
 
               {!isAdmin ? (
                 <StyledNavLink to={'/wishlist'}>

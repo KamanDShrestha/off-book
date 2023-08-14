@@ -36,7 +36,12 @@ loginRouter.post('/', async (req, res) => {
           role: user.role,
         });
       } else {
-        res.status(409).send({ message: 'Password is incorrect!' });
+        res
+          .status(409)
+          .send({
+            message:
+              'Either the password or provided email address is incorrect!',
+          });
       }
     }
   } catch (error) {

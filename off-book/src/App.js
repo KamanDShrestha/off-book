@@ -10,6 +10,7 @@ import BookDetails from './pages/BookDetails';
 import Wishlist from './pages/Wishlist';
 import Profile from './pages/Profile';
 import Users from './pages/Users';
+import AddBooks from './pages/AddBooks';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       { path: '/wishlist', element: <Wishlist /> },
       { path: '/profile', element: <Profile /> },
       { path: '/users', element: <Users /> },
+      { path: '/booksAdd', element: <AddBooks /> },
     ],
   },
 ]);
