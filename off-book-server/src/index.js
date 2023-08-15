@@ -24,7 +24,8 @@ const logoutRouter = require('./routes/authentication/logout');
 const userDeleteRouter = require('./routes/users/userDelete');
 const bookAddRouter = require('./routes/books/bookAdd');
 const bookDeleteRouter = require('./routes/books/bookDelete');
-
+const genreAddRouter = require('./routes/genres/genrePost');
+const genreRouter = require('./routes/genres/genreRouter');
 //helmet as middleware
 //for setting up HTTPs header wihtin the response for security purposes
 const helmet = require('helmet');
@@ -98,6 +99,8 @@ app.use('/api/logout', logoutRouter);
 app.use('/api/users', userDeleteRouter);
 app.use('/api/books', bookAddRouter);
 app.use('/api/books', bookDeleteRouter);
+app.use('/api/genres', genreAddRouter);
+app.use('/api/genres', genreRouter);
 
 //listening for the request on the port no 5000
 app.listen(process.env.SERVER_PORT, () => {

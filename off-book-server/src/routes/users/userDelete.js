@@ -9,7 +9,9 @@ router.delete('/:email', protect, isAdmin, async (req, res) => {
   if (email) {
     try {
       const deletedUser = await User.deleteOne({ email });
-      res.status(200).send({ message: 'User has been deleted' });
+      res
+        .status(200)
+        .send({ message: 'User has been deleted', ...deletedUser });
     } catch (error) {}
   } else {
     res.status(400).send({ message: 'Provide valid email for deletion' });

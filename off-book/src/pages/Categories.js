@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import useBooks from '../hooks/useBooks';
 import { SecondLayerBookContainer } from './Home';
 import BookCard from '../components/BookCard';
 import Loader from '../components/Loader';
+import useGenreAdd from '../hooks/useGenreAdd';
+import useGenres from '../hooks/useGenres';
 const Categories = () => {
-  const genres = ['All', 'Mystery', 'Comedy', 'Thriller'];
+  //   const genres = ['All', 'Mystery', 'Comedy', 'Thriller'];
 
   const [selectedGenre, setSelectedGenre] = useState('');
 
-  const { data: books, isLoading } = useBooks(selectedGenre);
-  console.log(books);
+  const { data: books, isLoading: isGettingBooks } = useBooks(selectedGenre);
+  const { data: genres, isLoading: isGettingGenres } = useGenres();
+
   console.log('Selected Genre', selectedGenre);
 
   function handleSelection(e) {
@@ -24,14 +27,21 @@ const Categories = () => {
 
   return (
     <Container>
-      <SideGenres>
-        {genres.map((genre) => (
-          <p onClick={handleSelection} key={genre}>
-            {genre}
+      {isGettingGenres ? (
+        <Loader />
+      ) : (
+        <SideGenres>
+          <p onClick={handleSelection} key={'All'}>
+            All
           </p>
-        ))}
-      </SideGenres>
-      {isLoading ? (
+          {genres.map((genre) => (
+            <p onClick={handleSelection} key={genre}>
+              {genre.genre}
+            </p>
+          ))}
+        </SideGenres>
+      )}
+      {isGettingBooks ? (
         <Loader />
       ) : (
         <SecondLayerBookContainer>

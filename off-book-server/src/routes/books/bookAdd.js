@@ -8,6 +8,7 @@ router.post('/', protect, isAdmin, async (req, res) => {
   console.log(book);
   if (book) {
     const isbnNo = book.isbn;
+
     try {
       const alreadyExists = await Book.findOne({ isbn: isbnNo });
       if (alreadyExists) {
