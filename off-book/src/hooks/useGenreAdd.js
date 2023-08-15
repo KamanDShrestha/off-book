@@ -5,7 +5,7 @@ function useGenreAdd() {
   const addedGenre = useMutation({
     mutationFn: (data) =>
       axiosInstance
-        .post('/api/genres', data, { withCredentials: true })
+        .post('/api/genres', { genre: data }, { withCredentials: true })
         .then((res) => res.data),
   });
   return addedGenre;

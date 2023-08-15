@@ -4,7 +4,7 @@ import useBooks from '../hooks/useBooks';
 import { SecondLayerBookContainer } from './Home';
 import BookCard from '../components/BookCard';
 import Loader from '../components/Loader';
-import useGenreAdd from '../hooks/useGenreAdd';
+// import useGenreAdd from '../hooks/useGenreAdd';
 import useGenres from '../hooks/useGenres';
 const Categories = () => {
   //   const genres = ['All', 'Mystery', 'Comedy', 'Thriller'];
@@ -35,7 +35,7 @@ const Categories = () => {
             All
           </p>
           {genres.map((genre) => (
-            <p onClick={handleSelection} key={genre}>
+            <p onClick={handleSelection} key={genre.genre}>
               {genre.genre}
             </p>
           ))}
@@ -46,7 +46,7 @@ const Categories = () => {
       ) : (
         <SecondLayerBookContainer>
           {books.map((bookInfo) => (
-            <BookCard bookInfo={bookInfo} key={`${bookInfo._id}`} />
+            <BookCard bookInfo={bookInfo} key={`${bookInfo.isbn}`} />
           ))}
         </SecondLayerBookContainer>
       )}

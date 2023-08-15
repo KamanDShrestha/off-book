@@ -4,13 +4,19 @@ import Header from '../components/Header';
 import { useForm } from 'react-hook-form';
 import Button from '../components/Button';
 import useBookAdd from '../hooks/useBookAdd';
+import useGenreAdd from '../hooks/useGenreAdd';
 const AddBooks = () => {
   const { register, handleSubmit, watch } = useForm();
-  const { mutate } = useBookAdd();
+  const { mutate: addNewBook } = useBookAdd();
+  const { mutate: addNewGenre } = useGenreAdd();
   const providedImageLink = watch('imageLink', '');
   function handleBookAdd(data) {
+    const genreList = data.genre.split(',');
+
     console.log(data);
-    mutate(data);
+    console.log(data.genre);
+    addNewGenre(data.genre);
+    addNewBook({ ...data, genre: genreList });
   }
 
   return (
@@ -49,7 +55,11 @@ const AddBooks = () => {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='genre'>Genre</label>
-          <input type='text' {...register('genre')} />
+          <input
+            type='text'
+            placeholder='provide multiple genres by seperating genres by commas'
+            {...register('genre')}
+          />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='published'>Published Date</label>

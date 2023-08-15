@@ -36,16 +36,13 @@ loginRouter.post('/', async (req, res) => {
           role: user.role,
         });
       } else {
-        res
-          .status(409)
-          .send({
-            message:
-              'Either the password or provided email address is incorrect!',
-          });
+        res.status(409).send({
+          message:
+            'Either the password or provided email address is incorrect!',
+        });
       }
     }
   } catch (error) {
-    s;
     res.status(400).send('User cannot be logged in', error);
   }
 });
