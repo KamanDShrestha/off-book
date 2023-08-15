@@ -7,7 +7,7 @@ import AuthenticationContextProvider from './contexts/AuthenticationContextProvi
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import WishListContextProvider from './contexts/WishListContextProvider';
-// import { ReactQueryDevtools } from 'react-query-devtools';
+import { ReactQueryDevtools } from 'react-query-devtools';
 //making a query client for using react query and provide the values
 const queryClient = new QueryClient();
 
@@ -18,6 +18,7 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <AuthenticationContextProvider>
           <App />
+          {/* <ReactQueryDevtools /> */}
         </AuthenticationContextProvider>
       </QueryClientProvider>
     </WishListContextProvider>

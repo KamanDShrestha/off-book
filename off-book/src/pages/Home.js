@@ -186,7 +186,7 @@ const FirstLayerImageHolder = styled.div`
   margin: 20px;
 `;
 
-const SecondLayerBookContainer = styled.div`
+export const SecondLayerBookContainer = styled.div`
   /* display: flex;
   justify-content: center;
   align-items: center;

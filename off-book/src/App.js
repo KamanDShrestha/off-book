@@ -11,6 +11,7 @@ import Wishlist from './pages/Wishlist';
 import Profile from './pages/Profile';
 import Users from './pages/Users';
 import AddBooks from './pages/AddBooks';
+import Categories from './pages/Categories';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/book/:id', element: <BookDetails /> },
       { path: '/wishlist', element: <Wishlist /> },
+      { path: '/categories', element: <Categories /> },
       { path: '/profile', element: <Profile /> },
       { path: '/users', element: <Users /> },
       { path: '/booksAdd', element: <AddBooks /> },

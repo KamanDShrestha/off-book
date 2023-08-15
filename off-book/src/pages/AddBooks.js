@@ -44,9 +44,18 @@ const AddBooks = () => {
           <input type='text' {...register('isbn')} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <label htmlFor='price'>Price</label>
+          <input type='number' {...register('price')} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <label htmlFor='genre'>Genre</label>
+          <input type='text' {...register('genre')} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='published'>Published Date</label>
           <input type='date' {...register('published')} />
         </div>
+
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='publisher'>Publisher</label>
           <input type='text' {...register('publisher')} />
