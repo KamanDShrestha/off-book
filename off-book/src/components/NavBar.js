@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import logo from '../assets/logo.png';
 import { NavLink } from 'react-router-dom';
 import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
@@ -19,7 +19,7 @@ const NavBar = () => {
   }, [location, setIsInHome]);
 
   const userInfo = getFromLocalStorage('userInfo') || null;
-  const { wishList, numberWishList } = useWishListContext();
+  const { wishList } = useWishListContext();
 
   const isAdmin = userInfo ? (userInfo.role === 'admin' ? true : false) : false;
 
@@ -47,12 +47,12 @@ const NavBar = () => {
               {isAdmin ? (
                 <StyledNavLink to={'/booksAdd'}>Books➕➕</StyledNavLink>
               ) : (
-                <StyledNavLink to={'/categories'}>Catgories</StyledNavLink>
+                <StyledNavLink to={'/categories'}>Categories</StyledNavLink>
               )}
 
               {!isAdmin ? (
                 <StyledNavLink to={'/wishlist'}>
-                  {numberWishList !== 0 && (
+                  {wishList.length !== 0 && (
                     <span
                       style={{
                         backgroundColor: 'red',
@@ -63,7 +63,7 @@ const NavBar = () => {
                         marginRight: '4px',
                       }}
                     >
-                      {numberWishList}
+                      {wishList.length}
                     </span>
                   )}
                   Wishlist

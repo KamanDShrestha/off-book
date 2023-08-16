@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../services/axiosInstance';
 import setToLocalStorage from '../helpers/setToLocalStorage';
 import { useNavigate } from 'react-router-dom';
+import { useWishListContext } from '../contexts/WishListContextProvider';
 
 // const { useMutation } = require('@tanstack/react-query');
 // const { axiosInstance } = require('../services/axiosInstance');
@@ -25,6 +26,7 @@ export default function useAuthUser() {
         email: data.email,
         role: data.role,
       });
+      window.dispatchEvent(new Event('custom-storage-event-name'));
       navigate('/');
     },
     onError: (error) => {

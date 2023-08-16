@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { styled } from 'styled-components';
 import useBooks from '../hooks/useBooks';
 import { SecondLayerBookContainer } from './Home';
@@ -7,11 +7,14 @@ import Loader from '../components/Loader';
 // import useGenreAdd from '../hooks/useGenreAdd';
 import useGenres from '../hooks/useGenres';
 const Categories = () => {
-  //   const genres = ['All', 'Mystery', 'Comedy', 'Thriller'];
+  const selectedGenre = useRef('');
+  const sortPrice = useRef('');
+  const [fetchQuery, setFetchQuery] = useState({
+    selectedGenre: '',
+    sortPrice: '',
+  });
 
-  const [selectedGenre, setSelectedGenre] = useState('');
-
-  const { data: books, isLoading: isGettingBooks } = useBooks(selectedGenre);
+  const { data: books, isLoading: isGettingBooks } = useBooks(fetchQuery);
   const { data: genres, isLoading: isGettingGenres } = useGenres();
 
   console.log('Selected Genre', selectedGenre);
@@ -19,10 +22,22 @@ const Categories = () => {
   function handleSelection(e) {
     console.log(e.target.innerText);
     if (e.target.innerText === 'All') {
-      setSelectedGenre('');
+      selectedGenre.current = '';
     } else {
-      setSelectedGenre(e.target.innerText);
+      selectedGenre.current = e.target.innerText;
     }
+    setFetchQuery((fetchQuery) => ({
+      ...fetchQuery,
+      selectedGenre: selectedGenre.current,
+    }));
+  }
+
+  function handleSortSelection(e) {
+    sortPrice.current = e.target.value;
+    setFetchQuery((fetchQuery) => ({
+      ...fetchQuery,
+      sortPrice: sortPrice.current,
+    }));
   }
 
   return (
@@ -41,15 +56,26 @@ const Categories = () => {
           ))}
         </SideGenres>
       )}
-      {isGettingBooks ? (
-        <Loader />
-      ) : (
-        <SecondLayerBookContainer>
-          {books.map((bookInfo) => (
-            <BookCard bookInfo={bookInfo} key={`${bookInfo.isbn}`} />
-          ))}
-        </SecondLayerBookContainer>
-      )}
+      <main>
+        <SortTab>
+          <div>
+            <SelectTab defaultValue={sortPrice} onChange={handleSortSelection}>
+              <option value={''}>Sort By Price</option>
+              <option value={'Ascending'}>Ascending</option>
+              <option value={'Descending'}>Descending</option>
+            </SelectTab>
+          </div>
+        </SortTab>
+        {isGettingBooks ? (
+          <Loader />
+        ) : (
+          <SecondLayerBookContainer>
+            {books.map((bookInfo) => (
+              <BookCard bookInfo={bookInfo} key={`${bookInfo.isbn}`} />
+            ))}
+          </SecondLayerBookContainer>
+        )}
+      </main>
     </Container>
   );
 };
@@ -65,6 +91,17 @@ const SideGenres = styled.div`
   flex-direction: column;
   padding: 10px;
   background-color: gray;
+`;
+
+const SortTab = styled.div`
+  display: flex;
+  padding: 10px;
+`;
+
+const SelectTab = styled.select`
+  padding: 10px;
+  margin: 2px;
+  border-radius: 20px;
 `;
 
 export default Categories;

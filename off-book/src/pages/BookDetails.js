@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import { useWishListContext } from '../contexts/WishListContextProvider';
 import Loader from '../components/Loader';
 import useBookDelete from '../hooks/useBookDelete';
-import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
+
 import getFromLocalStorage from '../helpers/getFromLocalStorage';
 const BookDetails = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const BookDetails = () => {
   const { data, isLoading } = useBookDetail(id);
   console.log(data);
 
-  const { saveWishList } = useWishListContext();
+  const { dispatch } = useWishListContext();
   const userInfo = getFromLocalStorage('userInfo');
 
   const { mutate, isLoading: isDeleting } = useBookDelete();
@@ -55,7 +55,14 @@ const BookDetails = () => {
                 Delete book 🗑️
               </Button>
             ) : (
-              <Button onButtonClick={() => saveWishList(data)}>
+              <Button
+                onButtonClick={() =>
+                  dispatch({
+                    type: 'saveWishList',
+                    payload: { email: userInfo.email, book: data },
+                  })
+                }
+              >
                 Add to Wishlist
               </Button>
             )}

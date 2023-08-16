@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
+
 import BookCard from '../components/BookCard';
-import Input from '../components/Input';
 
 import { css, styled } from 'styled-components';
 
 import sineater from '../assets/bookcover01.jpeg';
 import million from '../assets/bookcover02.jpeg';
 import berlin from '../assets/bookcover03.jpeg';
-import family from '../assets/bookcover04.jpeg';
 
 import Header from '../components/Header';
-import stackDark from '../assets/stackDark.jpg';
+
 import oldbooks from '../assets/oldbooks.jpg';
 import Footer from '../components/Footer';
 
-import axios from 'axios';
 import useBooks from '../hooks/useBooks';
 import Loader from '../components/Loader';
 
@@ -33,7 +30,9 @@ const Home = () => {
   //   }
   //   getBooks();
   // }, []);
+
   const { data: books, isLoading } = useBooks();
+
   const bookCovers = [sineater, million, berlin];
   return (
     <>

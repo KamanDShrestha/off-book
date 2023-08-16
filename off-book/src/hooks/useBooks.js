@@ -1,15 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '../services/axiosInstance';
 
-function useBooks(genre) {
-  console.log(genre);
+function useBooks(fetchQuery) {
+  console.log(fetchQuery);
   const books = useQuery({
-    queryKey: ['books', genre],
+    queryKey: ['books', fetchQuery],
     queryFn: () =>
       axiosInstance
         .get('/books', {
           params: {
-            genre,
+            genre: fetchQuery?.selectedGenre,
+            sortByPrice: fetchQuery?.sortPrice,
           },
         })
         .then((res) => res.data),

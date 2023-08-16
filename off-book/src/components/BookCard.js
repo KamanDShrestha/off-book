@@ -8,7 +8,8 @@ import getFromLocalStorage from '../helpers/getFromLocalStorage';
 const BookCard = ({ bookInfo }) => {
   const navigate = useNavigate();
 
-  const { saveWishList } = useWishListContext();
+  // const { saveWishList } = useWishListContext();
+  const { dispatch } = useWishListContext();
   const userInfo = getFromLocalStorage('userInfo');
 
   const { mutate, isLoading } = useBookDelete();
@@ -18,7 +19,10 @@ const BookCard = ({ bookInfo }) => {
   console.log(isAdmin);
 
   function handleWishClick() {
-    saveWishList(bookInfo);
+    dispatch({
+      type: 'saveWishList',
+      payload: { email: userInfo.email.split('@')[0], book: bookInfo },
+    });
   }
 
   function handleDeleteClick() {

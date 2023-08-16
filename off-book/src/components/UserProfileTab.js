@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaPersonBooth } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -10,15 +10,23 @@ import useLogoutUser from '../hooks/useLogoutUser';
 const UserProfileTab = () => {
   const navigate = useNavigate();
   const userInfo = getFromLocalStorage('userInfo');
-  const { removeWishList } = useWishListContext();
+  const { dispatch } = useWishListContext();
   const { mutate } = useLogoutUser();
+
+  useEffect(() => {
+    dispatch({ type: 'setWishList', payload: { user: userInfo } });
+  }, []);
 
   console.log(userInfo);
   function handleSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'logout') {
       localStorage.removeItem('userInfo');
-      removeWishList();
+      // removeWishList();
+      dispatch({
+        type: 'saveToSpecific',
+        payload: userInfo.email.split('@')[0],
+      });
       mutate();
       navigate('/login');
     } else {

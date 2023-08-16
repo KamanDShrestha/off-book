@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useEffect } from 'react';
 
 import React from 'react';
 import { useState } from 'react';
@@ -15,6 +15,31 @@ const AuthenticationContextProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem('userInfo'))
       : []
   );
+
+  useEffect(() => {
+    // window.addEventListener('storage', (event) => {
+    //   if (event.key === 'userInfo') {
+    //     console.log('Userinfo has been added');
+    //     setUserInfo(() => JSON.parse(localStorage.getItem('userInfo')));
+    //   }
+    // });
+    console.log('checking if it running');
+    const storageEventListener = (event) => {
+      if (event.key === 'userInfo') {
+        console.log('Userinfo has been added');
+        setUserInfo(JSON.parse(event.newValue));
+      }
+    };
+
+    window.addEventListener('storage', storageEventListener);
+
+    return () => {
+      window.removeEventListener('storage', storageEventListener);
+    };
+  }, []);
+
+  console.log('in Authentication Provider', userInfo);
+
   return (
     <AuthenticationContext.Provider
       value={{

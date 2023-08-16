@@ -14,14 +14,14 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <WishListContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthenticationContextProvider>
+    <AuthenticationContextProvider>
+      <WishListContextProvider>
+        <QueryClientProvider client={queryClient}>
           <App />
           {/* <ReactQueryDevtools /> */}
-        </AuthenticationContextProvider>
-      </QueryClientProvider>
-    </WishListContextProvider>
+        </QueryClientProvider>
+      </WishListContextProvider>
+    </AuthenticationContextProvider>
   </React.StrictMode>
 );
 

@@ -20,9 +20,6 @@ export default function useRegisterUser() {
     },
     onError: (error) => {
       toast.error(error.response.data.message);
-      //   toast.error(
-      //     'The user cannot be registered. Please try again with valid credentials.'
-      //   );
     },
   });
   return registeredUser;
