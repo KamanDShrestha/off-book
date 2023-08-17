@@ -5,6 +5,7 @@ import { useWishListContext } from '../contexts/WishListContextProvider';
 import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
 import useBookDelete from '../hooks/useBookDelete';
 import getFromLocalStorage from '../helpers/getFromLocalStorage';
+import formatCurrency from '../helpers/formatCurrency';
 const BookCard = ({ bookInfo }) => {
   const navigate = useNavigate();
 
@@ -12,7 +13,7 @@ const BookCard = ({ bookInfo }) => {
   const { dispatch } = useWishListContext();
   const userInfo = getFromLocalStorage('userInfo');
 
-  const { mutate, isLoading } = useBookDelete();
+  const { mutate, isLoading: isDeleting } = useBookDelete();
 
   //checking if the logged in user is admin
   const isAdmin = userInfo ? (userInfo.role === 'admin' ? true : false) : false;
@@ -30,21 +31,34 @@ const BookCard = ({ bookInfo }) => {
   }
 
   return (
-    <BookContainer style={isLoading ? { filter: 'grayscale(100%)' } : {}}>
+    <BookContainer style={isDeleting ? { filter: 'grayscale(100%)' } : {}}>
+      {/* <div style={{ height: '80%' }}> */}
       <ImageContainer src={bookInfo.imageLink} />
+      {/* </div> */}
 
-      <BookTitle onClick={() => navigate(`book/${bookInfo._id}`)}>
-        {bookInfo.title}
-      </BookTitle>
+      <BookDetails>
+        <BookTitle onClick={() => navigate(`/book/${bookInfo._id}`)}>
+          {bookInfo.title}
+        </BookTitle>
 
-      <BookAuthor>By: {bookInfo.author}</BookAuthor>
+        <BookAuthor>By: {bookInfo.author}</BookAuthor>
+        <span>{formatCurrency(bookInfo.price)}</span>
+      </BookDetails>
 
       {!isAdmin ? (
-        <AddToWishButton onClick={handleWishClick}>
+        <AddToWishButton
+          onClick={handleWishClick}
+          style={{ whiteSpace: 'nowrap' }}
+        >
           Add to Wishlist
         </AddToWishButton>
       ) : (
-        <DeleteButton onClick={handleDeleteClick}>Delete Book 🗑️</DeleteButton>
+        <DeleteButton
+          onClick={handleDeleteClick}
+          style={{ whiteSpace: 'nowrap' }}
+        >
+          Delete Book 🗑️
+        </DeleteButton>
       )}
     </BookContainer>
   );
@@ -53,16 +67,23 @@ const BookCard = ({ bookInfo }) => {
 const BookContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
+  position: relative;
+  width: 100%;
 `;
 
 const ImageContainer = styled.img`
   overflow: hidden;
   border-radius: 10px;
-  /* width: 100%; */
   width: 100%;
-  height: 100%;
+  /* width: auto; */
+`;
+
+const BookDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 `;
 
 const BookTitle = styled.p`
@@ -71,7 +92,7 @@ const BookTitle = styled.p`
   margin-bottom: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+  width: 80%;
   white-space: nowrap;
   &:hover {
     cursor: pointer;

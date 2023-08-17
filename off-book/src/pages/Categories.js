@@ -50,9 +50,9 @@ const Categories = () => {
             All
           </p>
           {genres.map((genre) => (
-            <p onClick={handleSelection} key={genre.genre}>
+            <GenreRow onClick={handleSelection} key={genre.genre}>
               {genre.genre}
-            </p>
+            </GenreRow>
           ))}
         </SideGenres>
       )}
@@ -90,7 +90,18 @@ const SideGenres = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: gray;
+  border-radius: 10px;
+  background-color: #f4f3e6;
+  height: 82vh;
+  overflow: scroll;
+`;
+
+const GenreRow = styled.p`
+  border: 2px #c8c17e;
+
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
 `;
 
 const SortTab = styled.div`

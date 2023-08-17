@@ -6,7 +6,7 @@ router.get('/:id', async (req, res) => {
   console.log(req.params.id);
 
   const book = await Book.findById(req.params.id);
-
+  
   console.log('Book details ', book);
   res.json(book);
 });

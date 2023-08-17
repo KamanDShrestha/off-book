@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 import useBookDelete from '../hooks/useBookDelete';
 
 import getFromLocalStorage from '../helpers/getFromLocalStorage';
+import formatCurrency from '../helpers/formatCurrency';
 const BookDetails = () => {
   const { id } = useParams();
   console.log(id);
@@ -43,6 +44,9 @@ const BookDetails = () => {
             <CollapsingText style={{ fontSize: '13px' }}>
               {data?.description}
             </CollapsingText>
+            <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
+              Price: {formatCurrency(data?.price)}
+            </StyledHeading>
             <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
               Author: {data?.author}
             </StyledHeading>

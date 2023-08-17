@@ -2,7 +2,9 @@ import React from 'react';
 import { useWishListContext } from '../contexts/WishListContextProvider';
 import { styled } from 'styled-components';
 import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
-
+import formatCurrency from '../helpers/formatCurrency';
+import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 const Wishlist = () => {
   //   const wishList = JSON.parse(localStorage.getItem('wishlist')) || [];
   const { wishList, dispatch } = useWishListContext();
@@ -10,6 +12,9 @@ const Wishlist = () => {
   const { userInfo } = useAuthenticationContext();
   console.log(userInfo);
 
+  const navigate = useNavigate();
+
+  // calculating totalPrice of the books
   const totalPrice = wishList.reduce(
     (sum, book) => sum + book.quantity * book.price,
     0
@@ -74,13 +79,16 @@ const Wishlist = () => {
                     ➕
                   </span>
                 </span>
-                <span>{book.price}</span>
-                <span>{book.quantity * book.price}</span>
+                <span>{formatCurrency(book.price)}</span>
+                <span>{formatCurrency(book.quantity * book.price)}</span>
               </WishListRow>
             ))}
         <TotalRow>
           <div>
-            <p>Total Order Price:{totalPrice}</p>
+            <p>Total Order Price: {formatCurrency(totalPrice)}</p>
+            <Button onButtonClick={() => navigate('/shipping')}>
+              Place Order
+            </Button>
           </div>
         </TotalRow>
       </StyledWishListContainer>
@@ -107,7 +115,7 @@ const TotalRow = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-
+  background-color: #f4f3e6;
   text-align: right;
 `;
 

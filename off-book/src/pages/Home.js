@@ -194,9 +194,10 @@ export const SecondLayerBookContainer = styled.div`
   gap: 3rem; */
   display: grid;
   grid-template-columns: 30% 30% 30%;
-  gap: 50px;
-
-  margin: 30px;
+  gap: 30px;
+  height: 100%;
+  width: 100%;
+  margin: auto;
 `;
 
 export default Home;

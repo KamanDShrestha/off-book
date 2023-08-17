@@ -15,7 +15,7 @@ const AddBooks = () => {
 
     console.log(data);
     console.log(data.genre);
-    addNewGenre(data.genre);
+    addNewGenre(genreList);
     addNewBook({ ...data, genre: genreList });
   }
 

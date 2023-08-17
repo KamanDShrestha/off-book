@@ -12,6 +12,9 @@ import Profile from './pages/Profile';
 import Users from './pages/Users';
 import AddBooks from './pages/AddBooks';
 import Categories from './pages/Categories';
+import Shipping from './pages/Shipping';
+import PrivateRoutes from './components/PrivateRoutes';
+import AdminRoutes from './components/AdminRoutes';
 
 const router = createBrowserRouter([
   {
@@ -20,12 +23,28 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/signup', element: <SignUp /> },
       { path: '/login', element: <Login /> },
+
+      {
+        path: '',
+        element: <PrivateRoutes />,
+        children: [
+          { path: '/shipping', element: <Shipping /> },
+          { path: '/wishlist', element: <Wishlist /> },
+          { path: '/profile', element: <Profile /> },
+        ],
+      },
+
+      {
+        path: '',
+        element: <AdminRoutes />,
+        children: [
+          { path: 'users', element: <Users /> },
+          { path: 'booksAdd', element: <AddBooks /> },
+        ],
+      },
+
       { path: '/book/:id', element: <BookDetails /> },
-      { path: '/wishlist', element: <Wishlist /> },
       { path: '/categories', element: <Categories /> },
-      { path: '/profile', element: <Profile /> },
-      { path: '/users', element: <Users /> },
-      { path: '/booksAdd', element: <AddBooks /> },
     ],
   },
 ]);
