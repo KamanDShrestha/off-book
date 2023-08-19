@@ -6,6 +6,7 @@ import BookCard from '../components/BookCard';
 import Loader from '../components/Loader';
 // import useGenreAdd from '../hooks/useGenreAdd';
 import useGenres from '../hooks/useGenres';
+import Header from '../components/Header';
 const Categories = () => {
   const selectedGenre = useRef('');
   const sortPrice = useRef('');
@@ -46,14 +47,20 @@ const Categories = () => {
         <Loader />
       ) : (
         <SideGenres>
-          <p onClick={handleSelection} key={'All'}>
+          <AllRow onClick={handleSelection} key={'All'}>
             All
-          </p>
-          {genres.map((genre) => (
-            <GenreRow onClick={handleSelection} key={genre.genre}>
-              {genre.genre}
-            </GenreRow>
-          ))}
+          </AllRow>
+          {genres.map((genre) =>
+            selectedGenre.current !== genre.genre ? (
+              <GenreRow onClick={handleSelection} key={genre.genre}>
+                {genre.genre}
+              </GenreRow>
+            ) : (
+              <SelectedRow onClick={handleSelection} key={genre.genre}>
+                {genre.genre}
+              </SelectedRow>
+            )
+          )}
         </SideGenres>
       )}
       <main>
@@ -66,6 +73,11 @@ const Categories = () => {
             </SelectTab>
           </div>
         </SortTab>
+        {selectedGenre.current ? (
+          <h1>{selectedGenre.current} books</h1>
+        ) : (
+          <h1>All books</h1>
+        )}
         {isGettingBooks ? (
           <Loader />
         ) : (
@@ -96,11 +108,23 @@ const SideGenres = styled.div`
   overflow: scroll;
 `;
 
+const AllRow = styled.p`
+  cursor: pointer;
+`;
+
 const GenreRow = styled.p`
   border: 2px #c8c17e;
 
   border-radius: 10px;
   font-weight: 700;
+  cursor: pointer;
+`;
+const SelectedRow = styled.p`
+  border: 2px #c8c17e;
+  font-weight: bolder;
+  font-size: large;
+  border-radius: 10px;
+  text-decoration: underline;
   cursor: pointer;
 `;
 

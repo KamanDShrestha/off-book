@@ -20,6 +20,11 @@ const Wishlist = () => {
     0
   );
 
+  console.log(wishList);
+  function handleDeleteWishlist(bookid) {
+    dispatch({ type: 'deleteFromWishList', payload: bookid });
+  }
+
   return (
     <>
       <StyledWishListContainer>
@@ -30,6 +35,7 @@ const Wishlist = () => {
           <span>Quantity</span>
           <span>Price</span>
           <span>Total Price</span>
+          <span></span>
         </WishListRow>
         {wishList.length === 0
           ? 'You can add more books in the wishlist'
@@ -81,6 +87,9 @@ const Wishlist = () => {
                 </span>
                 <span>{formatCurrency(book.price)}</span>
                 <span>{formatCurrency(book.quantity * book.price)}</span>
+                <DeleteIconSpan onClick={() => handleDeleteWishlist(book._id)}>
+                  🗑️
+                </DeleteIconSpan>
               </WishListRow>
             ))}
         <TotalRow>
@@ -105,7 +114,7 @@ const StyledWishListContainer = styled.div`
 
 const WishListRow = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 10px;
 `;
 
@@ -117,6 +126,12 @@ const TotalRow = styled.div`
   padding: 20px;
   background-color: #f4f3e6;
   text-align: right;
+`;
+
+const DeleteIconSpan = styled.span`
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default Wishlist;

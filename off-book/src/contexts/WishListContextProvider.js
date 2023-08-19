@@ -53,6 +53,11 @@ function reducer(state, action) {
       setToLocalStorage(`${action.payload.email}-wishlist`, state);
       toast.success('The book has been added to wishlist.');
       return state;
+
+    case 'deleteFromWishList':
+      state = state.filter((book) => book._id !== action.payload);
+      return state;
+
     case 'saveToSpecific':
       setToLocalStorage(`${action.payload}-wishlist`, state);
       return [];

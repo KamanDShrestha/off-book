@@ -26,6 +26,13 @@ const bookAddRouter = require('./routes/books/bookAdd');
 const bookDeleteRouter = require('./routes/books/bookDelete');
 const genreAddRouter = require('./routes/genres/genrePost');
 const genreRouter = require('./routes/genres/genreRouter');
+const createOrderRouter = require('./routes/orders/createOrder');
+const getOrderByIdRouter = require('./routes/orders/getOrderDetails');
+const getMineOrders = require('./routes/orders/getLoggedInOrderDetails');
+const updatePaymentStatus = require('./routes/orders/updatePaymentStatus');
+const updateDeliveryStatus = require('./routes/orders/updateDeliveryStatus');
+const getAllOrders = require('./routes/orders/getAllOrders');
+
 //helmet as middleware
 //for setting up HTTPs header wihtin the response for security purposes
 const helmet = require('helmet');
@@ -92,15 +99,24 @@ app.use(cookieParser());
 app.use('/', bookRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/book', bookDetailRouter);
 app.use('/api/profile', userProfileRouter);
 app.use('/api/users', usersDetailsRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/users', userDeleteRouter);
+
+app.use('/api/book', bookDetailRouter);
 app.use('/api/books', bookAddRouter);
 app.use('/api/books', bookDeleteRouter);
+
 app.use('/api/genres', genreAddRouter);
 app.use('/api/genres', genreRouter);
+
+app.use('/api/newOrder', createOrderRouter);
+app.use('/api/orders', getOrderByIdRouter);
+app.use('/api/mineOrders', getMineOrders);
+app.use('/api/orders', updatePaymentStatus);
+app.use('/api/orders', updateDeliveryStatus);
+app.use('/api/orders', getAllOrders);
 
 //listening for the request on the port no 5000
 app.listen(process.env.SERVER_PORT, () => {

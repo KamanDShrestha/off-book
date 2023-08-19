@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import { ProfilePic } from '../pages/Profile';
-
 import useDeleteUser from '../hooks/useDeleteUser';
 const UserCard = ({ user }) => {
   const { mutate, isLoading: isDeleting } = useDeleteUser();

@@ -21,6 +21,7 @@ export default function useAuthUser() {
       console.log(data);
       toast.success(data.message);
       setToLocalStorage('userInfo', {
+        id: data.id,
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,

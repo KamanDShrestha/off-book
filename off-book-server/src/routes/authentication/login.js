@@ -29,7 +29,7 @@ loginRouter.post('/', async (req, res) => {
 
         res.status(201).send({
           message: 'User successfully loggedIn!',
-          id: user.id,
+          id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,

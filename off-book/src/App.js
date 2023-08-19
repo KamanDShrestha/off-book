@@ -15,6 +15,8 @@ import Categories from './pages/Categories';
 import Shipping from './pages/Shipping';
 import PrivateRoutes from './components/PrivateRoutes';
 import AdminRoutes from './components/AdminRoutes';
+import PaymentDetails from './components/PaymentDetails';
+import PlaceOrder from './components/PlaceOrder';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,8 @@ const router = createBrowserRouter([
           { path: '/shipping', element: <Shipping /> },
           { path: '/wishlist', element: <Wishlist /> },
           { path: '/profile', element: <Profile /> },
+          { path: '/payment', element: <PaymentDetails /> },
+          { path: '/order', element: <PlaceOrder /> },
         ],
       },
 

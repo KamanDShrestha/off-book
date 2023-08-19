@@ -4,11 +4,15 @@ import { useCartContext } from '../contexts/CartContextProvider';
 import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Button from '../components/Button';
+import CheckoutProcess from '../components/CheckoutProcess';
+import { useNavigate } from 'react-router-dom';
 const Shipping = () => {
   const { cart, dispatch } = useCartContext();
   const { register, handleSubmit } = useForm({
     defaultValues: cart.shippingAddress,
   });
+
+  const navigate = useNavigate();
 
   function handleOrder(data) {
     console.log(data);
@@ -21,12 +25,16 @@ const Shipping = () => {
         country: data.address,
       },
     });
+    navigate('/payment');
   }
+
+  console.log(cart);
 
   return (
     <OrderContainer>
+      <CheckoutProcess step1 step2 />
       <form onSubmit={handleSubmit(handleOrder)}>
-        <Header>Place your order!</Header>
+        <Header>Provide shipping details!</Header>
         <div
           style={{
             display: 'flex',
@@ -67,7 +75,7 @@ const Shipping = () => {
           <label htmlFor='country'>Country</label>
           <input type='text' {...register('country')} />
         </div>
-        <Button style={{ margin: 'auto' }}>Order now!</Button>
+        <Button style={{ margin: 'auto' }}>Continue</Button>
       </form>
     </OrderContainer>
   );
@@ -75,6 +83,7 @@ const Shipping = () => {
 
 const OrderContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 75vh;

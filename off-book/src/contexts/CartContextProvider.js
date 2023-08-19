@@ -15,6 +15,8 @@ function reducer(state, action) {
           country: action.payload.country,
         },
       };
+    case 'setPayment':
+      return { ...state, payment: action.payload };
     default:
       return state;
   }
