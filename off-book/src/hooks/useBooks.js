@@ -11,6 +11,7 @@ function useBooks(fetchQuery) {
           params: {
             genre: fetchQuery?.selectedGenre,
             sortByPrice: fetchQuery?.sortPrice,
+            searchQuery: fetchQuery?.searchQuery,
           },
         })
         .then((res) => res.data),

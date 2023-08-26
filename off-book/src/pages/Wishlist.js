@@ -5,13 +5,15 @@ import { useAuthenticationContext } from '../contexts/AuthenticationContextProvi
 import formatCurrency from '../helpers/formatCurrency';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
+import useWishlistAdd from '../hooks/useWishlistAdd';
+import getFromLocalStorage from '../helpers/getFromLocalStorage';
 const Wishlist = () => {
   //   const wishList = JSON.parse(localStorage.getItem('wishlist')) || [];
   const { wishList, dispatch } = useWishListContext();
   console.log(wishList);
-  const { userInfo } = useAuthenticationContext();
+  const userInfo = getFromLocalStorage('userInfo');
   console.log(userInfo);
-
+  const { mutate: addToWishlist, isLoading: isAdding } = useWishlistAdd();
   const navigate = useNavigate();
 
   // calculating totalPrice of the books
@@ -22,13 +24,16 @@ const Wishlist = () => {
 
   console.log(wishList);
   function handleDeleteWishlist(bookid) {
-    dispatch({ type: 'deleteFromWishList', payload: bookid });
+    dispatch({
+      type: 'deleteFromWishList',
+      payload: { bookid: bookid, email: userInfo.email.split('@')[0] },
+    });
   }
 
   return (
     <>
       <StyledWishListContainer>
-        <WishListRow>
+        <WishListRow style={{}}>
           <span></span>
           <span>Title</span>
           <span>Author</span>
@@ -97,6 +102,13 @@ const Wishlist = () => {
             <p>Total Order Price: {formatCurrency(totalPrice)}</p>
             <Button onButtonClick={() => navigate('/shipping')}>
               Place Order
+            </Button>
+            <Button
+              onButtonClick={() =>
+                addToWishlist({ user: userInfo.id, addedBooks: wishList })
+              }
+            >
+              Save for later
             </Button>
           </div>
         </TotalRow>

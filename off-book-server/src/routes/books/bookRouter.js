@@ -8,10 +8,25 @@ const bookRouter = express.Router();
 bookRouter.get('/books', async (req, res) => {
   const genre = req.query.genre;
   const sortByPrice = req.query.sortByPrice;
+  const searchQuery = req.query.searchQuery;
   console.log(sortByPrice);
   console.log('Here genre', genre);
+  console.log('Here search', searchQuery);
   try {
     let result = [];
+
+    if (searchQuery) {
+      console.log(searchQuery);
+      const books = await Book.find({ $text: { $search: searchQuery } });
+      if (books) {
+        res.json(books);
+        return;
+      } else {
+        res.send({ message: `No books were found for ${searchQuery}` });
+        return;
+      }
+    }
+
     if (genre) {
       const books = await Book.find({ genre: genre });
       if (books) {
@@ -20,7 +35,6 @@ bookRouter.get('/books', async (req, res) => {
         console.log(result);
       }
     } else {
-      console.log(Book);
       const books = await Book.find();
       // res.json(books);
       result = [...books];

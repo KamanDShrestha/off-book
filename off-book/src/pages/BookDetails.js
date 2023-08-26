@@ -48,6 +48,9 @@ const BookDetails = () => {
               Price: {formatCurrency(data?.price)}
             </StyledHeading>
             <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
+              Genres: {data?.genre.join(', ')}
+            </StyledHeading>
+            <StyledHeading as={'p'} style={{ fontSize: '15px' }}>
               Author: {data?.author}
             </StyledHeading>
             <StyledHeading as={'p'} style={{ fontSize: '15px' }}>

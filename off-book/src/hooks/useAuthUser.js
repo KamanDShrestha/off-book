@@ -27,7 +27,7 @@ export default function useAuthUser() {
         email: data.email,
         role: data.role,
       });
-      window.dispatchEvent(new Event('custom-storage-event-name'));
+
       navigate('/');
     },
     onError: (error) => {

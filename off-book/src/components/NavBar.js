@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import logo from '../assets/logo.png';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthenticationContext } from '../contexts/AuthenticationContextProvider';
 import { styled } from 'styled-components';
 import { useLocation } from 'react-router-dom';
@@ -8,15 +8,36 @@ import UserProfileTab from './UserProfileTab';
 import { FaBookOpen, FaSearch } from 'react-icons/fa';
 import { useWishListContext } from '../contexts/WishListContextProvider';
 import getFromLocalStorage from '../helpers/getFromLocalStorage';
+import Input from './Input';
+import useBooks from '../hooks/useBooks';
+import { useFetchContext } from '../contexts/FetchQueryProvider';
 const NavBar = () => {
+  const [showSearch, setShowSearch] = useState(false);
+
+  const inputRef = useRef(null);
+  const navigate = useNavigate();
   const { isInHome, setIsInHome } = useAuthenticationContext();
   const location = useLocation();
-
+  const { fetchQuery, setFetchQuery } = useFetchContext();
   useEffect(() => {
     setIsInHome(
       () => location.pathname !== '/signup' && location.pathname !== '/login'
     );
   }, [location, setIsInHome]);
+
+  useEffect(() => {
+    function setSearch(e) {
+      if (e.key === 'Enter') {
+        setFetchQuery(() => ({
+          ...fetchQuery,
+          searchQuery: inputRef.current.value,
+        }));
+        navigate('/categories');
+      }
+    }
+
+    document.addEventListener('keydown', setSearch);
+  }, []);
 
   const userInfo = getFromLocalStorage('userInfo') || null;
   const { wishList } = useWishListContext();
@@ -42,7 +63,8 @@ const NavBar = () => {
               <FaBookOpen /> Books
             </div>
           </StyledNavLink>
-          {isInHome && (
+
+          {isInHome && !showSearch && (
             <>
               {isAdmin ? (
                 <StyledNavLink to={'/booksAdd'}>Books➕➕</StyledNavLink>
@@ -81,9 +103,13 @@ const NavBar = () => {
               ) : (
                 <StyledNavLink to={'/login'}>Login</StyledNavLink>
               )}
-              <FaSearch />
             </>
           )}
+
+          <SearchDiv>
+            {showSearch && <input ref={inputRef} />}
+            <FaSearch onClick={() => setShowSearch((search) => !search)} />
+          </SearchDiv>
         </StyledNavBar>
       </SecondCenteredDiv>
 
@@ -100,6 +126,7 @@ const StyledNavContainer = styled.div`
   justify-content: space-between;
   margin: 10px;
   gap: 20px;
+  align-items: center;
   padding: 10px 30px;
 `;
 
@@ -134,6 +161,13 @@ const SearchInput = styled.input`
   padding: 0.2rem 1rem;
   width: 300px;
   outline: none;
+`;
+
+const SearchDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const CenteredDiv = styled.div`

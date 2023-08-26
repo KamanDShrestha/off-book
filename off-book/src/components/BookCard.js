@@ -17,7 +17,6 @@ const BookCard = ({ bookInfo }) => {
 
   //checking if the logged in user is admin
   const isAdmin = userInfo ? (userInfo.role === 'admin' ? true : false) : false;
-  console.log(isAdmin);
 
   function handleWishClick() {
     dispatch({
@@ -70,7 +69,7 @@ const BookContainer = styled.div`
   /* justify-content: center;
   align-items: center; */
   position: relative;
-  width: 100%;
+  width: auto;
 `;
 
 const ImageContainer = styled.img`

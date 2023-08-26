@@ -18,7 +18,9 @@
     "concurrently": "^8.2.0",
     "dotenv": "^16.3.1",
     "joi-password-complexity": "^5.2.0",
-    "nodemon": "^3.0.1",
+    "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
     "react-query-devtools": "^2.6.3"
   }
 }

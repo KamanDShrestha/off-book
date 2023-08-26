@@ -32,7 +32,9 @@ const Home = () => {
   // }, []);
 
   const { data: books, isLoading } = useBooks();
-
+  require('react-dom');
+  window.React2 = require('react');
+  console.log('debugging', window.React1 === window.React2);
   const bookCovers = [sineater, million, berlin];
   return (
     <>
@@ -186,18 +188,24 @@ const FirstLayerImageHolder = styled.div`
 `;
 
 export const SecondLayerBookContainer = styled.div`
-  /* display: flex;
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+
+  margin: auto;
+  > * {
+    padding: 10px;
+    max-height: auto; /* Set a maximum height */
+    overflow: auto;
+  }
+`;
+
+export default Home;
+
+/* display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   margin: 15px;
   gap: 3rem; */
-  display: grid;
-  grid-template-columns: 30% 30% 30%;
-  gap: 30px;
-  height: 100%;
-  width: 100%;
-  margin: auto;
-`;
-
-export default Home;

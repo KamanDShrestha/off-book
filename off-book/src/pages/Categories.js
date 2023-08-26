@@ -7,18 +7,20 @@ import Loader from '../components/Loader';
 // import useGenreAdd from '../hooks/useGenreAdd';
 import useGenres from '../hooks/useGenres';
 import Header from '../components/Header';
+import { useFetchContext } from '../contexts/FetchQueryProvider';
 const Categories = () => {
   const selectedGenre = useRef('');
   const sortPrice = useRef('');
-  const [fetchQuery, setFetchQuery] = useState({
-    selectedGenre: '',
-    sortPrice: '',
-  });
+  const { fetchQuery, setFetchQuery } = useFetchContext();
 
   const { data: books, isLoading: isGettingBooks } = useBooks(fetchQuery);
   const { data: genres, isLoading: isGettingGenres } = useGenres();
 
   console.log('Selected Genre', selectedGenre);
+
+  useEffect(() => {
+    setFetchQuery({ ...fetchQuery, selectedGenre: '', sortPrice: '' });
+  }, []);
 
   function handleSelection(e) {
     console.log(e.target.innerText);

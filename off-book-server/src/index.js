@@ -32,7 +32,8 @@ const getMineOrders = require('./routes/orders/getLoggedInOrderDetails');
 const updatePaymentStatus = require('./routes/orders/updatePaymentStatus');
 const updateDeliveryStatus = require('./routes/orders/updateDeliveryStatus');
 const getAllOrders = require('./routes/orders/getAllOrders');
-
+const wishlistAddRouter = require('./routes/wishlist/wishlistAdd');
+const getWishlistRouter = require('./routes/wishlist/getWishlist');
 //helmet as middleware
 //for setting up HTTPs header wihtin the response for security purposes
 const helmet = require('helmet');
@@ -110,6 +111,9 @@ app.use('/api/books', bookDeleteRouter);
 
 app.use('/api/genres', genreAddRouter);
 app.use('/api/genres', genreRouter);
+
+app.use('/api/addWishList', wishlistAddRouter);
+app.use('/api/wishlist', getWishlistRouter);
 
 app.use('/api/newOrder', createOrderRouter);
 app.use('/api/orders', getOrderByIdRouter);

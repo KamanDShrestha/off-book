@@ -46,4 +46,10 @@ const bookSchema = new mongoose.Schema({
 
 //making a book model fron the schema
 const Book = mongoose.model('Book', bookSchema);
+
+// Add a text index to the 'title' field
+Book.collection.createIndex({ title: 'text' }, function (err, result) {
+  console.log(result);
+});
+
 module.exports = Book;

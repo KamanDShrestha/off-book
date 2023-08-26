@@ -1,10 +1,16 @@
-import { useContext, createContext, useReducer } from 'react';
+import { useContext, createContext, useReducer, useEffect } from 'react';
 import { useWishListContext } from './WishListContextProvider';
 
 const CartContext = createContext();
 
 function reducer(state, action) {
   switch (action.type) {
+    case 'setBooksList':
+      return {
+        ...state,
+        booksList: action.payload,
+      };
+
     case 'setShippingAddress':
       return {
         ...state,
@@ -25,13 +31,18 @@ function reducer(state, action) {
 function CartProvider({ children }) {
   //taking the saved wishlist
   const { wishList } = useWishListContext();
-
+  console.log('wishlist in cart context', wishList);
   const initalState = {
     booksList: wishList,
     shippingAddress: { district: '', city: '', address: '', country: '' },
   };
 
   const [cart, dispatch] = useReducer(reducer, initalState);
+
+  useEffect(() => {
+    dispatch({ type: 'setBooksList', payload: wishList });
+  }, [wishList]);
+
   console.log(cart);
   return (
     <CartContext.Provider value={{ cart, dispatch }}>

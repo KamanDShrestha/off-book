@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import WishListContextProvider from './contexts/WishListContextProvider';
 import { ReactQueryDevtools } from 'react-query-devtools';
+import FetchQueryProvider from './contexts/FetchQueryProvider';
 import CartProvider from './contexts/CartContextProvider';
 //making a query client for using react query and provide the values
 const queryClient = new QueryClient();
@@ -15,16 +16,18 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthenticationContextProvider>
-      <WishListContextProvider>
-        <CartProvider>
-          <QueryClientProvider client={queryClient}>
-            <App />
-            {/* <ReactQueryDevtools /> */}
-          </QueryClientProvider>
-        </CartProvider>
-      </WishListContextProvider>
-    </AuthenticationContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthenticationContextProvider>
+        <WishListContextProvider>
+          <CartProvider>
+            <FetchQueryProvider>
+              <App />
+            </FetchQueryProvider>
+          </CartProvider>
+        </WishListContextProvider>
+      </AuthenticationContextProvider>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

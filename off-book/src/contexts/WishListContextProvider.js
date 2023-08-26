@@ -1,8 +1,8 @@
 import React, { useContext, useReducer } from 'react';
 import { createContext } from 'react';
-import { useAuthenticationContext } from './AuthenticationContextProvider';
+
 import setToLocalStorage from '../helpers/setToLocalStorage';
-import getFromLocalStorage from '../helpers/getFromLocalStorage';
+
 import { toast } from 'react-hot-toast';
 
 const WishListContext = createContext();
@@ -10,13 +10,19 @@ const WishListContext = createContext();
 function reducer(state, action) {
   switch (action.type) {
     case 'setWishList':
-      state = localStorage.getItem(
-        `${action.payload.user.email.split('@')[0]}-wishlist`
-      )
-        ? getFromLocalStorage(
-            `${action.payload.user.email.split('@')[0]}-wishlist`
-          )
-        : [];
+      console.log('in action', action.payload);
+      state = action.payload.wishlist || [];
+      setToLocalStorage(
+        `${action.payload.user.email.split('@')[0]}-wishlist`,
+        action.payload.wishlist
+      );
+      // localStorage.getItem(
+      //   `${action.payload.user.email.split('@')[0]}-wishlist`
+      // )
+      //   ? getFromLocalStorage(
+      //       `${action.payload.user.email.split('@')[0]}-wishlist`
+      //     )
+      //   : [];
       return state;
     case 'increaseQuantity':
       state = state.map((book) =>
@@ -55,7 +61,9 @@ function reducer(state, action) {
       return state;
 
     case 'deleteFromWishList':
-      state = state.filter((book) => book._id !== action.payload);
+      state = state.filter((book) => book._id !== action.payload.bookid);
+      console.log(state);
+      setToLocalStorage(`${action.payload.email}-wishlist`, state);
       return state;
 
     case 'saveToSpecific':
@@ -67,16 +75,15 @@ function reducer(state, action) {
 }
 
 const WishListContextProvider = ({ children }) => {
-  const { userInfo } = useAuthenticationContext();
+  // console.log('from backend', useWishlists(userInfo.id));
+  const initialState = [];
+  // wishlist ||
+  // localStorage.getItem(`${userInfo.email?.split('@')[0]}-wishlist`)
+  //   ? JSON.parse(
+  //       localStorage.getItem(`${userInfo.email?.split('@')[0]}-wishlist`)
+  //     )
+  //   : [];
 
-  console.log('inWishListContext', userInfo);
-  const initialState = localStorage.getItem(
-    `${userInfo.email?.split('@')[0]}-wishlist`
-  )
-    ? JSON.parse(
-        localStorage.getItem(`${userInfo.email?.split('@')[0]}-wishlist`)
-      )
-    : [];
   const [wishList, dispatch] = useReducer(reducer, initialState);
 
   console.log(wishList);
