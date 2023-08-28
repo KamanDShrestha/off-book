@@ -19,10 +19,12 @@ const BookCard = ({ bookInfo }) => {
   const isAdmin = userInfo ? (userInfo.role === 'admin' ? true : false) : false;
 
   function handleWishClick() {
-    dispatch({
-      type: 'saveWishList',
-      payload: { email: userInfo.email.split('@')[0], book: bookInfo },
-    });
+    return userInfo === undefined
+      ? navigate('/login')
+      : dispatch({
+          type: 'saveWishList',
+          payload: { email: userInfo.email.split('@')[0], book: bookInfo },
+        });
   }
 
   function handleDeleteClick() {

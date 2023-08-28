@@ -33,8 +33,10 @@ const BookDetails = () => {
         <StyledBookDetailContainer
           style={isDeleting ? { filter: 'grayscale(100%)' } : {}}
         >
-          <StyledImage src={data?.imageLink} alt={data?.title} />
-          <div>
+          <StyledImageContainer>
+            <StyledImage src={data?.imageLink} alt={data?.title} />
+          </StyledImageContainer>
+          <StyledBookDetails>
             <StyledHeading variant='title' as={'h1'}>
               {data?.title}
             </StyledHeading>
@@ -73,7 +75,7 @@ const BookDetails = () => {
                 Add to Wishlist
               </Button>
             )}
-          </div>
+          </StyledBookDetails>
         </StyledBookDetailContainer>
       )}
     </>
@@ -82,14 +84,24 @@ const BookDetails = () => {
 
 const StyledBookDetailContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 30% 70%;
   padding: 20px;
   margin: 20px;
-  gap: 20px;
+  gap: 40px;
+`;
+
+const StyledImageContainer = styled.div`
+  height: 80vh;
 `;
 
 const StyledImage = styled.img`
-  height: 500px;
+  height: auto;
+  width: 100%;
+`;
+
+const StyledBookDetails = styled.div`
+  height: 80dvh;
+  overflow: scroll;
 `;
 
 const StyledHeading = styled.p`

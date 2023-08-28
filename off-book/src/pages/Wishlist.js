@@ -30,18 +30,23 @@ const Wishlist = () => {
     });
   }
 
+  function handleClearWishlist() {
+    dispatch({ type: 'clearWishlist' });
+  }
+
   return (
     <>
       <StyledWishListContainer>
-        <WishListRow style={{}}>
+        <WishListRow>
           <span></span>
-          <span>Title</span>
-          <span>Author</span>
-          <span>Quantity</span>
-          <span>Price</span>
-          <span>Total Price</span>
+          <TableHeader>Title</TableHeader>
+          <TableHeader>Author</TableHeader>
+          <TableHeader>Quantity</TableHeader>
+          <TableHeader>Price</TableHeader>
+          <TableHeader>Total Price</TableHeader>
           <span></span>
         </WishListRow>
+
         {wishList.length === 0
           ? 'You can add more books in the wishlist'
           : wishList.map((book) => (
@@ -62,7 +67,7 @@ const Wishlist = () => {
                 <span>{book.title}</span>
                 <span>{book.author}</span>
                 <span>
-                  <span
+                  <ButtonSpan
                     onClick={() =>
                       dispatch({
                         type: 'decreaseQuantity',
@@ -74,9 +79,9 @@ const Wishlist = () => {
                     }
                   >
                     ➖
-                  </span>
-                  {book.quantity}
-                  <span
+                  </ButtonSpan>
+                  <span style={{ margin: '10px' }}>{book.quantity}</span>
+                  <ButtonSpan
                     onClick={() =>
                       dispatch({
                         type: 'increaseQuantity',
@@ -88,7 +93,7 @@ const Wishlist = () => {
                     }
                   >
                     ➕
-                  </span>
+                  </ButtonSpan>
                 </span>
                 <span>{formatCurrency(book.price)}</span>
                 <span>{formatCurrency(book.quantity * book.price)}</span>
@@ -103,10 +108,12 @@ const Wishlist = () => {
             <Button onButtonClick={() => navigate('/shipping')}>
               Place Order
             </Button>
+            <Button onButtonClick={handleClearWishlist}>Clear</Button>
             <Button
               onButtonClick={() =>
                 addToWishlist({ user: userInfo.id, addedBooks: wishList })
               }
+              disabled={isAdding}
             >
               Save for later
             </Button>
@@ -136,8 +143,23 @@ const TotalRow = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-color: #f4f3e6;
+  background-color: #c5c6d0;
   text-align: right;
+`;
+
+const TableHeader = styled.span`
+  font-size: 1rem;
+  font-weight: 900;
+  text-decoration: underline;
+`;
+
+const ButtonSpan = styled.span`
+  background-color: #c5c6d0;
+  padding: 3px;
+  border-radius: 7px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const DeleteIconSpan = styled.span`

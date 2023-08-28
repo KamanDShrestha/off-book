@@ -33,9 +33,13 @@ const UserProfileTab = () => {
   function handleSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'logout') {
-      const recentWishlist = getWishListFromLocalStorage();
-      console.log('recent wishlist', recentWishlist);
-      addToWishlist({ user: userInfo.id, addedBooks: recentWishlist });
+      if (userInfo.role === 'user') {
+        const recentWishlist = getWishListFromLocalStorage();
+        console.log('recent wishlist', recentWishlist);
+        if (recentWishlist) {
+          addToWishlist({ user: userInfo.id, addedBooks: recentWishlist });
+        }
+      }
       localStorage.removeItem('userInfo');
       // removeWishList();
       dispatch({

@@ -8,8 +8,7 @@ import UserProfileTab from './UserProfileTab';
 import { FaBookOpen, FaSearch } from 'react-icons/fa';
 import { useWishListContext } from '../contexts/WishListContextProvider';
 import getFromLocalStorage from '../helpers/getFromLocalStorage';
-import Input from './Input';
-import useBooks from '../hooks/useBooks';
+
 import { useFetchContext } from '../contexts/FetchQueryProvider';
 const NavBar = () => {
   const [showSearch, setShowSearch] = useState(false);

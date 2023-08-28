@@ -66,6 +66,10 @@ function reducer(state, action) {
       setToLocalStorage(`${action.payload.email}-wishlist`, state);
       return state;
 
+    case 'clearWishlist':
+      state = [];
+      return state;
+
     case 'saveToSpecific':
       setToLocalStorage(`${action.payload}-wishlist`, state);
       return [];

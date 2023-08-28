@@ -48,61 +48,84 @@ const PlaceOrder = () => {
   return (
     <>
       <CheckoutProcess step1 step2 step3 step4 />
-      <DetailContainer>
-        <Heading>Account :</Heading>
-        <DetailParagraph>Name: {userInfo.firstName}</DetailParagraph>
-        <DetailParagraph>Email: {userInfo.email}</DetailParagraph>
-      </DetailContainer>
-      <DetailContainer>
-        <Heading>Delivery Address :</Heading>
-        <DetailParagraph>
-          {cart.shippingAddress.address}, {cart.shippingAddress.city}{' '}
-        </DetailParagraph>
-        <EditLink onClick={handleEditDelivery}>
-          Edit your delivery address
-        </EditLink>
-      </DetailContainer>
-      <DetailContainer>
-        <Heading>Payment Information :</Heading>
-        <DetailParagraph>{cart.payment}</DetailParagraph>
-        <EditLink onClick={handleEditDelivery}>
-          Edit your payment method
-        </EditLink>
-      </DetailContainer>
-      <DetailContainer>
-        <Heading>Your orders :</Heading>
-        {cart.booksList.length === 0 ? (
-          <DetailParagraph>
-            You have not added anything to your cart
-          </DetailParagraph>
-        ) : (
-          <OrderItems>
-            {cart.booksList.map((book) => (
-              <>
-                <img
-                  src={book.imageLink}
-                  alt={book.title}
-                  style={{ height: '100px' }}
-                />
-                <p>{book.title}</p>
-                <p>
-                  {book.quantity} * {formatCurrency(book.price)} ={' '}
-                  {formatCurrency(book.quantity * book.price)}
-                </p>
-              </>
-            ))}
-          </OrderItems>
-        )}
+      <PlaceOrderContainer>
+        <OverallDetail>
+          <DetailContainer>
+            <Heading>Account :</Heading>
+            <DetailParagraph>Name: {userInfo.firstName}</DetailParagraph>
+            <DetailParagraph>Email: {userInfo.email}</DetailParagraph>
+          </DetailContainer>
+          <DetailContainer>
+            <Heading>Delivery Address :</Heading>
+            <DetailParagraph>
+              {cart.shippingAddress.address}, {cart.shippingAddress.city}{' '}
+            </DetailParagraph>
+            <EditLink onClick={handleEditDelivery}>
+              Edit your delivery address
+            </EditLink>
+          </DetailContainer>
+          <DetailContainer>
+            <Heading>Payment Information :</Heading>
+            <DetailParagraph>{cart.payment}</DetailParagraph>
+            <EditLink onClick={handleEditPayment}>
+              Edit your payment method
+            </EditLink>
+          </DetailContainer>
+          <DetailContainer>
+            <Heading>Your orders :</Heading>
+            {cart.booksList.length === 0 ? (
+              <DetailParagraph>
+                You have not added anything to your cart
+              </DetailParagraph>
+            ) : (
+              <OrderItems>
+                {cart.booksList.map((book) => (
+                  <>
+                    <img
+                      src={book.imageLink}
+                      alt={book.title}
+                      style={{ height: '100px' }}
+                    />
+                    <p>{book.title}</p>
+                    <p>
+                      {book.quantity} * {formatCurrency(book.price)} ={' '}
+                      {formatCurrency(book.quantity * book.price)}
+                    </p>
+                  </>
+                ))}
+              </OrderItems>
+            )}
+            <DetailContainer>
+              <DetailParagraph>
+                Grand Total: {formatCurrency(totalPrice)}
+              </DetailParagraph>
+            </DetailContainer>
+            <EditLink onClick={handleEditWishlist}>Edit your wishlist</EditLink>
+          </DetailContainer>
+        </OverallDetail>
+
         <DetailContainer>
+          <Heading>Summary</Heading>
           <DetailParagraph>
-            Grand Total: {formatCurrency(totalPrice)}
+            Product Total : {formatCurrency(totalPrice)}
           </DetailParagraph>
+          <DetailParagraph>
+            Delivery To : {cart.shippingAddress.address}
+          </DetailParagraph>
+          <hr />
+          <br />
+          <DetailParagraph>
+            Delivery charge : {formatCurrency(0.0)}
+          </DetailParagraph>
+          <DetailParagraph>Discount : {formatCurrency(0.0)}</DetailParagraph>
+          <hr />
+          <br />
+          <DetailParagraph>
+            Order Total : {formatCurrency(totalPrice)}
+          </DetailParagraph>
+          <Button onButtonClick={handlePlaceOrder}>Place your order</Button>
         </DetailContainer>
-        <EditLink onClick={handleEditWishlist}>Edit your wishlist</EditLink>
-      </DetailContainer>
-      <OrderDiv>
-        <Button onButtonClick={handlePlaceOrder}>Place your order</Button>
-      </OrderDiv>
+      </PlaceOrderContainer>
     </>
   );
 };
@@ -126,6 +149,16 @@ const EditLink = styled.span`
 
   position: absolute;
   right: 10px;
+`;
+
+const PlaceOrderContainer = styled.div`
+  display: grid;
+  grid-template-columns: 60% 40%;
+`;
+
+const OverallDetail = styled.div`
+  height: 67vh;
+  overflow: scroll;
 `;
 
 const DetailContainer = styled.span`

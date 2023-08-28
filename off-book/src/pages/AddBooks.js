@@ -24,7 +24,7 @@ const AddBooks = () => {
       <BookCoverContainer>
         {providedImageLink ? (
           <CoverContainer>
-            <Header>Book Cover</Header>
+            <h3>Book Cover</h3>
             <AddImage src={providedImageLink} />
           </CoverContainer>
         ) : (
@@ -53,6 +53,11 @@ const AddBooks = () => {
           <label htmlFor='price'>Price</label>
           <input type='number' {...register('price')} />
         </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <label htmlFor='price'>Quantity in stock </label>
+          <input type='number' {...register('quantity')} />
+        </div>
+
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor='genre'>Genre</label>
           <input
@@ -89,8 +94,7 @@ const BookAddContainer = styled.div`
   grid-template-columns: 45% 55%;
   gap: 20px;
   padding: 20px;
-  width: 100vw;
-  height: 110dvh;
+
   margin: 30px;
 `;
 
@@ -102,12 +106,14 @@ const BookForm = styled.form`
   column-gap: '20px';
   overflow-y: scroll;
   margin: 10px;
+  height: 65vh;
 `;
 
 const BookCoverContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 65vh;
 `;
 
 const CoverContainer = styled.div`
