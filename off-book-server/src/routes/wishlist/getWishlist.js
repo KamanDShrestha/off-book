@@ -8,7 +8,7 @@ router.get('/:id', async (req, res) => {
   if (userId) {
     try {
       const wishlist = await Wishlist.findOne({ user: userId });
-      console.log(wishlist);
+
       if (wishlist) {
         res.json(wishlist);
       } else {

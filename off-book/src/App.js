@@ -17,6 +17,12 @@ import PrivateRoutes from './components/PrivateRoutes';
 import AdminRoutes from './components/AdminRoutes';
 import PaymentDetails from './components/PaymentDetails';
 import PlaceOrder from './components/PlaceOrder';
+import Chat from './pages/Chat';
+import { BASE_URL } from './constants';
+import io from 'socket.io-client';
+import OrderScreen from './pages/OrderScreen';
+
+// const socket = io(BASE_URL);
 
 const router = createBrowserRouter([
   {
@@ -35,6 +41,8 @@ const router = createBrowserRouter([
           { path: '/profile', element: <Profile /> },
           { path: '/payment', element: <PaymentDetails /> },
           { path: '/order', element: <PlaceOrder /> },
+          { path: '/order/:id', element: <OrderScreen /> },
+          // { path: '/chat', element: <Chat socket={socket} /> },
         ],
       },
 

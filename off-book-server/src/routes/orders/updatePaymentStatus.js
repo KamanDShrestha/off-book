@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.put('/:id/pay', protect, async (req, res) => {
   const orderId = req.params.id;
-
+  console.log('updating the payment', orderId);
   if (orderId) {
     try {
       const order = await Order.findById(orderId);
@@ -21,12 +21,10 @@ router.put('/:id/pay', protect, async (req, res) => {
       //   const updatedOrder = { ...order, isPaid: true, paidAt: new Date() };
       const updatedOrder = await order.save();
 
-      res
-        .status(200)
-        .send({
-          ...updatedOrder,
-          message: 'The payment status has been updated',
-        });
+      res.status(200).send({
+        ...updatedOrder,
+        message: 'The payment status has been updated',
+      });
     } catch (error) {
       res
         .status(400)

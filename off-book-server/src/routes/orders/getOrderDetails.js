@@ -3,12 +3,15 @@ const { protect, isAdmin } = require('../../middleware/authMiddleware');
 const Order = require('../../models/orderModel');
 const router = express.Router();
 
-router.get('/:id', protect, isAdmin, async (req, res) => {
+router.get('/:id', protect, async (req, res) => {
   //id in string format can be used for order id
   const orderId = req.params.id;
   if (orderId) {
     try {
-      const ordered = await Order.findById(orderId);
+      const ordered = await Order.findById(orderId).populate(
+        'user',
+        'firstName, email'
+      );
       if (ordered) {
         res.status(200).json(ordered);
       } else {

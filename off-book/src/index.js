@@ -10,6 +10,7 @@ import WishListContextProvider from './contexts/WishListContextProvider';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import FetchQueryProvider from './contexts/FetchQueryProvider';
 import CartProvider from './contexts/CartContextProvider';
+import PaymentProvider from './contexts/PaymentContextProvider';
 //making a query client for using react query and provide the values
 const queryClient = new QueryClient();
 
@@ -21,7 +22,9 @@ root.render(
         <WishListContextProvider>
           <CartProvider>
             <FetchQueryProvider>
-              <App />
+              <PaymentProvider>
+                <App />
+              </PaymentProvider>
             </FetchQueryProvider>
           </CartProvider>
         </WishListContextProvider>

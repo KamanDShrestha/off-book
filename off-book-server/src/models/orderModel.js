@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema(
     },
     orderedBooks: [
       {
-        _id: {
+        book: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Book',

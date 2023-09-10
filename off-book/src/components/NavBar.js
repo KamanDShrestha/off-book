@@ -29,7 +29,7 @@ const NavBar = () => {
       if (e.key === 'Enter') {
         setFetchQuery(() => ({
           ...fetchQuery,
-          searchQuery: inputRef.current.value,
+          searchQuery: inputRef.current?.value,
         }));
         navigate('/categories');
       }
@@ -93,7 +93,7 @@ const NavBar = () => {
                 <StyledNavLink to={'/users'}>Users</StyledNavLink>
               )}
 
-              <StyledNavLink to={'/blog'}>Blog</StyledNavLink>
+              <StyledNavLink to={'/chat'}>Chat</StyledNavLink>
 
               <StyledNavLink to={'/desc'}>About Us</StyledNavLink>
 

@@ -31,7 +31,11 @@ router.post('/', protect, async (req, res) => {
 
       const orderPlaced = await Order.create({
         user: user,
-        orderedBooks: orderedBooks,
+        orderedBooks: orderedBooks.map((book) => ({
+          ...book,
+          book: book._id,
+          _id: undefined,
+        })),
         shippingAddress: shippingAddress,
         shippingPrice: shippingPrice,
         totalPrice: totalPrice,
@@ -42,7 +46,9 @@ router.post('/', protect, async (req, res) => {
         deliveredAt: deliveredAt,
       });
 
-      res.status(201).send({ message: 'Your order has been placed' });
+      res
+        .status(201)
+        .send({ message: 'Your order has been placed', ...orderPlaced });
     } catch (error) {
       res
         .status(400)

@@ -6,7 +6,7 @@ const Button = ({ children, onButtonClick, disabled, style }) => {
       className={styles.button}
       onClick={onButtonClick}
       disabled={disabled}
-      style={{ ...style }}
+      style={{ ...style, width: 'auto' }}
     >
       {children}
     </button>

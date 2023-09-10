@@ -19,7 +19,7 @@ const PlaceOrder = () => {
     0
   );
 
-  function handlePlaceOrder() {
+  async function handlePlaceOrder() {
     const order = {
       user: userInfo.id,
       orderedBooks: cart.booksList,
@@ -32,7 +32,12 @@ const PlaceOrder = () => {
     };
     console.log(userInfo);
     console.log(cart);
-    mutate(order);
+    mutate(order, {
+      onSuccess: (data) => {
+        console.log(data._doc);
+        navigate(`/order/${data._doc._id}`);
+      },
+    });
   }
 
   function handleEditDelivery() {
